@@ -11,7 +11,7 @@ from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 FEED = Path(__file__).parent / "feed.json"
 SOURCE_TYPES = {"state_media", "irgc_media", "telegram", "independent_analyst", "think_tank", "government", "news_outlet", "database"}
 VERIFICATION = {"unverified_state_claim", "single_source", "corroborated", "imagery_supported"}
-CATEGORIES = {"missiles", "drones", "air_defense", "naval", "air_force", "space", "c4isr_ew", "procurement_transfer",
+CATEGORIES = {"missiles", "drones", "air_defense", "naval", "air_force", "space", "c4isr_ew", "transfer_to_iran", "transfer_from_iran",
               "production_capacity", "budget", "exercises", "sanctions_networks", "other"}
 DOMAINS = {"personnel", "training", "weapons", "infrastructure", "organization", "statements"}
 BRANCHES = {"artesh", "irgc_ground", "irgc_aerospace", "irgc_navy", "mod_industries", "unspecified"}

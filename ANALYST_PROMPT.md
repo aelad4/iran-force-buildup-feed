@@ -6,26 +6,30 @@ You are working in a clone of this repository (find it under `/home/user/`; the 
 
 ## Scope (in)
 - Branches: Artesh (army, navy, air force, air defense), IRGC (ground, Aerospace Force, IRGC Navy), Ministry of Defense and its industries.
-- Topics: ballistic and cruise missiles, drones and loitering munitions, air defense, naval vessels and basing, combat aircraft, space launch and satellites, C4ISR and electronic warfare, arms deals and technology transfer (Russia, China, North Korea, others), production capacity, defense budgets, exercises that reveal new capabilities, sanctions and procurement-network exposure.
+- Topics: ballistic and cruise missiles, drones and loitering munitions, air defense, naval vessels and basing, combat aircraft, space launch and satellites, C4ISR and electronic warfare, arms deals and technology transfer **to Iran** (Russia, China, North Korea, Belarus, others: weapons systems, aircraft, air defense, radars, components, propellant precursors, machine tools, experts, training) and **from Iran** (to Russia, proxies and partners), production capacity, defense budgets, exercises that reveal new capabilities, sanctions and procurement-network exposure.
 - Also in scope, when there is something concrete and new: manpower (recruitment, conscription, force size, senior appointments and losses), training (courses, academies, foreign training, exercises), infrastructure (bases, missile cities, tunnels, factories, ports, airfields, their construction or repair) and force structure (new units, commands, reorganisations, Basij integration), and speeches and statements by senior commanders, officials and lawmakers that announce a capability, production figure, doctrine or intent (quote them accurately, attributed, as claims).
 - Out of scope: general politics, protests, economy, enrichment news with no military-capability angle, routine statements and slogans with nothing new (no new capability, number, order or doctrine).
 
 ## Sources and how to read them
-1. **Telegram** (public previews): run `python3 tg_fetch.py HANDLE ...`. Working handles: Iranian_Militarism, defapress_ir, sepah, farsna, iribnews, seghal_aja, hadshotiran, VahidOnline, IranintlTV, jangaavaran1390, AeroSpaceTalk, BisimchiMedia. Tasnim: the main channel `Tasnimnews` exists but Telegram shows no public messages for it, so read Tasnim's own sibling channels listed in its profile instead: `JahanTasnim` (world), `Tasnimnews_hebrew` (Hebrew), `Tasnimnovosti` (Russian). `Partizan_ir` returns no messages. Messages are mostly Persian: read them in Persian.
-2. **Western and analyst sites** reachable from this environment: cna.org, navalnews.com, criticalthreats.org (ISW/CTP), missilethreat.csis.org, news.usni.org, iranintl.com, hisutton.com (via www.). Use `curl -sS -L -A "Mozilla/5.0" <url>` and read the pages. iiss.org, understandingwar.org and iranwatch.org may return 403: skip and note it. Do not use israel-alma.org (Alma Center) or isis-online.org (Institute for Science and International Security website); do not list them as unreachable. If a news outlet reports on one of their work, you may still cite that outlet.
-3. **Iranian state-media websites** (tasnimnews, farsnews, mehrnews, defapress, kayhan, mashregh) refuse connections from this network. Reach their content through their Telegram channels instead.
-4. X/Twitter accounts (Fabian Hinz, Decker Eveleth, H.I. Sutton) and paywalled Janes are not reachable. Do not pretend otherwise.
+The source list lives in `SOURCES.md` (Telegram handles by group, reachable websites, blocked hosts). Read it at the start of every run and cover every active source in it.
+1. **Telegram** (public previews): `python3 tg_fetch.py [--days N] HANDLE ...`. Most channels are Persian: read them in Persian. Russian, Ukrainian, Arabic and English channels are listed for transfers to and from Iran.
+2. **Websites**: only the hosts that `SOURCES.md` marks reachable. Use `curl -sS -L -A "Mozilla/5.0" <url>` and read the pages. This environment's network allows only some hosts; a "CONNECT tunnel failed, response 403" means the host is blocked by policy: do not retry or route around it, note it.
+3. Iranian state-media websites refuse connections from this network; reach their content through their Telegram channels. X/Twitter and paywalled Janes are not reachable. Do not pretend otherwise.
+4. Do not use israel-alma.org (Alma Center) or isis-online.org (Institute for Science and International Security website); do not list them as unreachable. If a news outlet reports on one of their work, you may still cite that outlet.
+
+## Growing the source list (every run)
+While reading, note channels and sites that items cite or forward from and that look useful (original reporting, official channels, specialist OSINT, transfer and shipping trackers). Test up to 10 new candidates per run (`tg_fetch.py HANDLE` must return recent messages; for a site, `curl` must return 200). Add the ones that work to `SOURCES.md` with the date and a one-line note on what they are good for; mark sources that stopped working as inactive with the date. Never add sources that the rules above exclude.
 
 ## Output language: Hebrew
 Write `title`, `summary` and `why_it_matters` of every item in **Hebrew**, whatever the source language (Persian, English, Arabic, Russian). Keep `source_name`, `url` and all enum values (categories, branches, source_type, verification, language) exactly as specified. Use standard Hebrew spellings for people and places; where there is no standard Hebrew term for a unit or weapon, keep its original name in Latin letters or Persian in parentheses. Do not soften or embellish when translating: keep claims attributed to whoever made them. The closing report is also in Hebrew.
 
 ## Procedure
 1. Read `feed.json` so you know what is already there. Lookback window: the last 48 hours, unless the kickoff message gives another one. For a longer window run `python3 tg_fetch.py --days N HANDLE ...` (it pages back through each channel; busy channels have hundreds of messages, so filter by keyword in code and read only matches). A long window changes nothing about the quality bar: keep only high-value items and merge duplicates.
-2. Pull Telegram channels and check the analyst/think-tank sites for in-scope material. When an item cites a report, imagery or another outlet, follow it if the host is reachable.
-3. Keep only high-value items: original reporting, imagery-based assessments, official announcements with concrete specifications, think-tank analysis, procurement or transfer evidence. Drop rewrites, recycled wire copy, generic commentary. Merge duplicates of one story into one item (most original source as `url`).
+2. Pull Telegram channels and check the analyst/think-tank sites for in-scope material. Run a dedicated pass for **transfers to Iran**: search all fetched messages and pages for suppliers and systems (e.g. روسیه، چین، کره شمالی، بلاروس، سوخو، Su-35, Su-30, Mi-28, Yak-130, J-10, J-20, HQ-9, S-400, S-300, Krasukha, رادار, perchlorate/پرکلرات, sodium perchlorate, دوربین/موتور/قطعات, cargo flights, Il-76, ships to Bandar Abbas/Caspian ports, Astrakhan, Makhachkala; and their Russian/Hebrew/English forms) and read every match. Report denials and non-deliveries too: they are evidence. When an item cites a report, imagery or another outlet, follow it if the host is reachable.
+3. Keep only high-value items: original reporting, imagery-based assessments, official announcements with concrete specifications, think-tank analysis, procurement or transfer evidence (in either direction). Drop rewrites, recycled wire copy, generic commentary. Merge duplicates of one story into one item (most original source as `url`).
 4. Write `/tmp/new_items.json` using the schema below, then run `python3 merge_items.py /tmp/new_items.json`. Fix anything it rejects.
-5. Commit only `feed.json` with the message `Feed update YYYY-MM-DD (+N items)` and push to the repository's default branch. If push fails, retry up to 4 times with backoff; if it still fails, say so plainly.
-6. End with a short report: items added, sources unreachable, anything the reader should know.
+5. Commit only `feed.json` and, if you changed it, `SOURCES.md`, with the message `Feed update YYYY-MM-DD (+N items)` and push to the repository's default branch. If push fails, retry up to 4 times with backoff; if it still fails, say so plainly.
+6. End with a short report: items added per axis, transfers to Iran found (or "none found"), sources added or deactivated, sources unreachable, anything the reader should know.
 
 ## Honesty rules
 - Never invent facts, quotes, dates, URLs or specifications. Every item must come from a page or message you actually read in this run. Use the Telegram permalink as `url` for Telegram-sourced items.
@@ -43,7 +47,7 @@ Write `title`, `summary` and `why_it_matters` of every item in **Hebrew**, whate
     "published_date": "YYYY-MM-DD or null", "language": "fa | en | ar | other",
     "summary": "2-3 factual sentences, in Hebrew", "why_it_matters": "1-2 sentences, in Hebrew, with limits",
     "domains": ["personnel|training|weapons|infrastructure|organization|statements"],
-    "categories": ["missiles|drones|air_defense|naval|air_force|space|c4isr_ew|procurement_transfer|production_capacity|budget|exercises|sanctions_networks|other"],
+    "categories": ["missiles|drones|air_defense|naval|air_force|space|c4isr_ew|transfer_to_iran|transfer_from_iran|production_capacity|budget|exercises|sanctions_networks|other"],
     "branches": ["artesh|irgc_ground|irgc_aerospace|irgc_navy|mod_industries|unspecified"],
     "significance": 1,
     "verification": "unverified_state_claim | single_source | corroborated | imagery_supported"
@@ -51,5 +55,7 @@ Write `title`, `summary` and `why_it_matters` of every item in **Hebrew**, whate
 }
 ```
 `domains` sorts every item into one or more of six axes (at least one is required): `personnel` (כוח אדם: manpower, recruitment, commanders), `training` (אימונים והכשרות: training, courses, exercises), `weapons` (אמל"ח ואמצעים: weapons systems, platforms, munitions, sensors, their procurement, transfer and use), `infrastructure` (תשתיות: bases, missile cities, tunnels, production sites, ports, airfields), `organization` (מבנה וארגון: units, commands, chain of command, doctrine), `statements` (נאומים והצהרות: speeches, interviews and official statements by commanders, officials and lawmakers). Give an item `statements` when a statement is its substance, alongside the axis the statement is about (for example `statements` + `weapons` for a production claim). Pick what the item is substantively about, not every axis it touches.
+
+`categories`: use `transfer_to_iran` for weapons, components, materials, know-how or experts going to Iran (including reported non-deliveries), and `transfer_from_iran` for Iranian transfers to Russia, proxies or other states.
 
 `significance`: 1 routine, 2 notable detail, 3 meaningful capability or procurement development, 4 major, 5 strategic shift. Use 4-5 rarely and only with a stated concrete basis. Telegram channels run by IRGC or state outlets are `irgc_media` or `state_media`; other channels are `telegram`.

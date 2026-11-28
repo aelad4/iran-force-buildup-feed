@@ -1,0 +1,50 @@
+name: Breaking ticker
+
+on:
+  schedule:
+    - cron: "*/20 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ticker
+  cancel-in-progress: false
+
+jobs:
+  ticker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Load previous ticker
+        run: |
+          mkdir -p out
+          git fetch --depth 1 origin ticker:refs/remotes/origin/ticker 2>/dev/null && git show origin/ticker:ticker.json > prev.json || echo '{}' > prev.json
+      - name: Collect
+        run: python3 .github/scripts/ticker.py prev.json out
+      - name: Publish to the ticker branch (single commit, not main)
+        run: |
+          if [ "$(cat out/changed)" != "1" ]; then echo "No change"; exit 0; fi
+          blob=$(git hash-object -w out/ticker.json)
+          tree=$(printf '100644 blob %s\tticker.json\n' "$blob" | git mktree)
+          commit=$(git -c user.name=ticker-bot -c user.email=41898282+github-actions[bot]@users.noreply.github.com commit-tree "$tree" -m "ticker $(date -u +%FT%TZ)")
+          git push -f origin "$commit:refs/heads/ticker"
+      - name: Alert check
+        id: alert
+        run: if [ -f out/push_payload.json ]; then echo "send=1" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        if: steps.alert.outputs.send == '1'
+        with:
+          node-version: 20
+      - if: steps.alert.outputs.send == '1'
+        run: npm install --no-save web-push@3.6.7 && node .github/scripts/notify.mjs
+        env:
+          PAYLOAD_FILE: out/push_payload.json
+          VAPID_PUBLIC_KEY: BLc2K01WJDQmjZQLU_hLfytCcWmphspJV6sAV7JojTbKclOY6T8ywAFTtNn463MQhpb2kABlYQ3WBR6Qe6F47gg
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          PUSH_SUBSCRIPTIONS: ${{ secrets.PUSH_SUBSCRIPTIONS }}
+          APP_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/

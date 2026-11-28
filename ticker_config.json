@@ -1,0 +1,43 @@
+{
+ "_note": "Breaking-news ticker (raw, unvetted). Edited by hand; the ticker workflow reads it every run. 'match' selects messages, 'alert' marks the ones that trigger a push notification, 'require' (per channel) is an extra filter for non-Iranian channels.",
+ "window_hours": 48,
+ "max_items": 400,
+ "alert_min_interval_minutes": 120,
+ "match": "موشک|پهپاد|پدافند|رادار|ناوشکن|ناوچه|زیردریایی|شناور|نیروی دریایی|جنگنده|بالگرد|ماهواره|رزمایش|رونمایی|سامانه|هوافضا|قرارگاه|شهر موشکی|کلاهک|تنگه هرمز|مین دریایی|سپاه|ارتش|بسیج|وزارت دفاع|missile|drone|UAV|air defen|radar|Shahed|ballistic|cruise|satellite|warship|navy|Hormuz|IRGC|ракет|дрон|БПЛА|ПВО|Шахед",
+ "alert": "رونمایی از .{0,40}(موشک|پهپاد|سامانه پدافند|سامانه موشکی|پرتابگر|ناوشکن|ناوچه|جنگنده|رادار|زیردریایی)|شلیک .{0,15}موشک بالستیک|پرتاب ماهواره|آزمایش .{0,20}موشک|رزمایش .{0,30}(آغاز|برگزار|مرحله)|شهر موشکی|سوخو|اس-?۴۰۰|تحویل.{0,25}(جنگنده|سامانه|بالگرد)|unveil.{0,40}(missile|drone|system|launcher)|test(ed|s)? .{0,25}missile|launch(ed|es)? .{0,25}(ballistic|satellite)|Su-35|S-400",
+ "channels": {
+  "sepah": {},
+  "defapress_ir": {},
+  "seghal_aja": {},
+  "farsna": {
+   "require": "ایران|سپاه|ارتش|بسیج|وزارت دفاع|نیروی دریایی|هوافضا|پدافند هوایی|خاتم"
+  },
+  "iribnews": {
+   "require": "ایران|سپاه|ارتش|بسیج|وزارت دفاع|نیروی دریایی|هوافضا|پدافند هوایی|خاتم"
+  },
+  "mehrnews": {
+   "require": "ایران|سپاه|ارتش|بسیج|وزارت دفاع|نیروی دریایی|هوافضا|پدافند هوایی|خاتم"
+  },
+  "irna_1313": {
+   "require": "ایران|سپاه|ارتش|بسیج|وزارت دفاع|نیروی دریایی|هوافضا|پدافند هوایی|خاتم"
+  },
+  "JahanTasnim": {
+   "require": "ایران|سپاه|ارتش|بسیج|وزارت دفاع|نیروی دریایی|هوافضا|پدافند هوایی|خاتم"
+  },
+  "BisimchiMedia": {
+   "require": "ایران|سپاه|ارتش|بسیج|وزارت دفاع|نیروی دریایی|هوافضا|پدافند هوایی|خاتم"
+  },
+  "IranintlTV": {
+   "require": "ایران|سپاه|ارتش|بسیج|وزارت دفاع|نیروی دریایی|هوافضا|پدافند هوایی|خاتم"
+  },
+  "OSINTWarfare": {
+   "require": "Iran|IRGC|Tehran"
+  },
+  "CIG_telegram": {
+   "require": "Iran|IRGC|Tehran|🇮🇷"
+  },
+  "clashreport": {
+   "require": "Iran|IRGC|Tehran"
+  }
+ }
+}

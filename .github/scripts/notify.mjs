@@ -4,7 +4,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import webpush from 'web-push';
 
-const { VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, PUSH_SUBSCRIPTIONS = '', APP_URL, TEST_MESSAGE } = process.env;
+const { VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, PUSH_SUBSCRIPTIONS = '', APP_URL, TEST_MESSAGE, PAYLOAD_FILE } = process.env;
 if (!VAPID_PRIVATE_KEY || !PUSH_SUBSCRIPTIONS.trim()) {
   console.log('VAPID_PRIVATE_KEY or PUSH_SUBSCRIPTIONS secret is not set; nothing to send.');
   process.exit(0);
@@ -23,8 +23,10 @@ try { previous = JSON.parse(execSync('git show HEAD~1:feed.json', { encoding: 'u
 const before = urls(previous);
 const fresh = (current.items || []).filter(i => !before.has(i.url));
 
-let title, body;
-if (TEST_MESSAGE) {
+let title, body, url = './#new', tag = 'feed-update';
+if (PAYLOAD_FILE) {
+  ({ title, body, url = url, tag = tag } = JSON.parse(readFileSync(PAYLOAD_FILE, 'utf8')));
+} else if (TEST_MESSAGE) {
   title = 'בדיקת התראות'; body = TEST_MESSAGE;
 } else {
   if (!fresh.length) { console.log('No new items in this push; nothing to send.'); process.exit(0); }
@@ -39,7 +41,7 @@ if (TEST_MESSAGE) {
 
 console.log('Notification:', title, '|', body);
 webpush.setVapidDetails(APP_URL || 'https://github.com', VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);
-const payload = JSON.stringify({ title, body, url: './#new', tag: 'feed-update' });
+const payload = JSON.stringify({ title, body, url, tag });
 let ok = 0, gone = 0, failed = 0;
 for (const sub of parseSubs(PUSH_SUBSCRIPTIONS)) {
   try { await webpush.sendNotification(sub, payload, { TTL: 86400, urgency: 'normal' }); ok++; }

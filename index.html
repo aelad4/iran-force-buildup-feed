@@ -28,7 +28,7 @@ button{font:inherit;color:inherit}
 .top .sub{display:block;font-size:12px;color:var(--mute);font-weight:400}
 .iconbtn{background:none;border:1px solid var(--line);border-radius:10px;padding:6px 10px;cursor:pointer;min-height:36px}
 .wrap{max-width:900px;margin:0 auto;padding:14px 16px 24px}
-.tabs{position:fixed;bottom:0;inset-inline:0;z-index:5;background:var(--bar);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom)}
+.tabs{position:fixed;bottom:0;inset-inline:0;z-index:5;background:var(--bar);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
 .tabs button{background:none;border:0;padding:8px 2px 9px;font-size:12.5px;color:var(--mute);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
 .tabs button .ic{font-size:19px;line-height:1}
 .tabs button[aria-selected="true"]{color:var(--accent);font-weight:600}
@@ -77,6 +77,12 @@ input[type=search],select,textarea{background:var(--card);color:var(--ink);borde
 .muted{color:var(--mute);font-size:13px}
 .stat{display:flex;gap:14px;flex-wrap:wrap;color:var(--mute);font-size:13px;margin:4px 0 8px}
 .stat b{color:var(--ink)}
+.tk{background:var(--card);border:1px solid var(--line);border-inline-start:4px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.tk.alert{border-inline-start-color:var(--s4)}
+.tk .meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tk .txt{white-space:pre-wrap;overflow:hidden;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical}
+.tk .txt.open{display:block}
+.warnbox{background:var(--accent-soft);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;margin-bottom:10px}
 [hidden]{display:none!important}
 </style>
 </head>
@@ -120,6 +126,17 @@ input[type=search],select,textarea{background:var(--card);color:var(--ink);borde
     </details>
     <div class="stat" id="count"></div>
     <div id="allList"></div>
+  </section>
+
+  <!-- Breaking ticker -->
+  <section id="v-ticker" data-view hidden>
+    <div class="warnbox">מבזק: הודעות גולמיות מערוצי טלגרם שנבחרו לפי מילות מפתח, מתעדכן בערך כל 20 דקות. <b>ללא סינון, תרגום או אימות</b>, ורובן תעמולה ממלכתית. הפריטים המנותחים נמצאים ב"מה חדש".</div>
+    <div class="fgrid">
+      <select id="tkCh" aria-label="ערוץ"></select>
+      <select id="tkOnly" aria-label="סוג"><option value="">כל ההתאמות</option><option value="alert">רק חשובות (מסומנות בכתום)</option></select>
+    </div>
+    <div class="stat" id="tkStat"></div>
+    <div id="tkList"></div>
   </section>
 
   <!-- Deep dive -->
@@ -167,6 +184,7 @@ input[type=search],select,textarea{background:var(--card);color:var(--ink);borde
 <nav class="tabs" role="tablist" aria-label="ניווט">
   <button role="tab" data-tab="new" aria-selected="true" type="button"><span class="ic">✦</span>מה חדש<span class="badge" id="newBadge"></span></button>
   <button role="tab" data-tab="all" aria-selected="false" type="button"><span class="ic">☰</span>כל הפריטים</button>
+  <button role="tab" data-tab="ticker" aria-selected="false" type="button"><span class="ic">⚡</span>מבזק<span class="badge" id="tkBadge" style="background:var(--s4)"></span></button>
   <button role="tab" data-tab="deep" aria-selected="false" type="button"><span class="ic">🔖</span>להעמקה<span class="badge" id="deepBadge" style="background:var(--accent)"></span></button>
   <button role="tab" data-tab="set" aria-selected="false" type="button"><span class="ic">⚙</span>הגדרות</button>
 </nav>
@@ -321,7 +339,7 @@ function show(tab){
   document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.tab===tab)));
   window.scrollTo(0,0);
 }
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{ history.replaceState(null,'','#'+b.dataset.tab); show(b.dataset.tab); });
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{ history.replaceState(null,'','#'+b.dataset.tab); show(b.dataset.tab); if(b.dataset.tab==='ticker') markTickerSeen(); });
 function route(){
   const h=location.hash.slice(1);
   if (h.startsWith('i=')) {
@@ -329,7 +347,8 @@ function route(){
     ['q','dom','cat','branch','stype','ver','mark'].forEach(k=>$(k).value=''); $('sig').value='0'; $('range').value='0'; renderAxes(); renderList();
     const el=$('i-'+id); if(el){ el.scrollIntoView({block:'start'}); el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),2500); }
     else if(!i) toast('הפריט לא נמצא בפיד');
-  } else show(['new','all','deep','set'].includes(h)?h:'new');
+  } else show(['new','all','ticker','deep','set'].includes(h)?h:'new');
+  if (h==='ticker') markTickerSeen();
 }
 window.addEventListener('hashchange', route);
 
@@ -360,7 +379,49 @@ async function load(){
     $('updated').textContent = 'לא ניתן לטעון את הפיד ('+e.message+')';
   }
 }
-$('refresh').onclick = () => { load().then(()=>toast('עודכן')); };
+$('refresh').onclick = () => { Promise.all([load(), loadTicker()]).then(()=>toast('עודכן')); };
+
+// ---- breaking ticker (raw, unvetted; lives on the 'ticker' branch, not on the site) ----
+const TICKER_URL = location.hostname.endsWith('github.io')
+  ? `https://raw.githubusercontent.com/${location.hostname.split('.')[0]}/${location.pathname.split('/')[1]}/ticker/ticker.json`
+  : './ticker.json';
+let ticker = {items:[]};
+const rel = d => { const m=Math.round((Date.now()-new Date(d))/6e4); return m<1?'עכשיו':m<60?`לפני ${m} דק׳`:m<1440?`לפני ${Math.round(m/60)} שע׳`:new Date(d).toLocaleDateString('he-IL'); };
+function renderTicker(){
+  const ch=$('tkCh').value, only=$('tkOnly').value, seenAt=S.tickerSeenAt||'';
+  const list=(ticker.items||[]).filter(i=>(!ch||i.channel===ch)&&(!only||i.alert));
+  const fresh=(ticker.items||[]).filter(i=>(i.first_seen||i.date)>seenAt).length;
+  $('tkBadge').textContent = fresh && location.hash!=='#ticker' ? (fresh>99?'99+':fresh) : '';
+  $('tkStat').textContent = ticker.updated_at ? `${list.length} הודעות · עודכן ${rel(ticker.updated_at)}${(ticker.failed_channels||[]).length?` · לא נקראו: ${ticker.failed_channels.join(', ')}`:''}` : '';
+  const box=$('tkList'); box.replaceChildren();
+  if(!list.length){const e=document.createElement('div');e.className='empty';e.textContent=ticker.updated_at?'אין הודעות שמתאימות.':'המבזק עוד לא זמין. הוא מתחיל לעבוד אחרי ההרצה הראשונה של התהליך ב-GitHub.';box.append(e)}
+  list.slice(0,200).forEach(i=>{
+    const d=document.createElement('article'); d.className='tk'+(i.alert?' alert':'');
+    const m=document.createElement('div'); m.className='meta';
+    const c=document.createElement('b'); c.textContent=i.channel; m.append(c, ' · '+rel(i.date));
+    (i.matched||[]).slice(0,4).forEach(k=>{const t=document.createElement('span');t.className='tag';t.textContent=k;m.append(t)});
+    const t=document.createElement('div'); t.className='txt'; t.dir='auto'; t.textContent=i.text; t.onclick=()=>t.classList.toggle('open');
+    const a=document.createElement('div'); a.className='acts';
+    const tg=document.createElement('a'); tg.className='act'; tg.href=safeUrl(i.permalink); tg.target='_blank'; tg.rel='noopener noreferrer'; tg.textContent='✈ בטלגרם';
+    const tr=document.createElement('a'); tr.className='act'; tr.target='_blank'; tr.rel='noopener noreferrer'; tr.textContent='תרגום (Google)';
+    tr.href='https://translate.google.com/?sl=auto&tl=iw&op=translate&text='+encodeURIComponent(i.text.slice(0,1500));
+    const sh=document.createElement('button'); sh.type='button'; sh.className='act'; sh.textContent='⤴ שיתוף';
+    sh.onclick=async()=>{const text=`[מבזק גולמי, לא מאומת] ${i.channel}\n${i.text.slice(0,600)}\n${i.permalink}`;
+      try{ if(navigator.share){await navigator.share({text});return} }catch(e){ if(e&&e.name==='AbortError')return }
+      try{await navigator.clipboard.writeText(text);toast('הועתק')}catch(_){prompt('העתק:',text)}};
+    a.append(tg,tr,sh); d.append(m,t,a); box.append(d);
+  });
+}
+function markTickerSeen(){ S.tickerSeenAt=new Date().toISOString(); save(); renderTicker(); }
+async function loadTicker(){
+  try { const r=await fetch(TICKER_URL,{cache:'no-store'}); if(!r.ok) throw 0; ticker=await r.json(); } catch(_) {}
+  const chans=[...new Set((ticker.items||[]).map(i=>i.channel))].sort(), cur=$('tkCh').value;
+  $('tkCh').replaceChildren(new Option('כל הערוצים',''), ...chans.map(c=>new Option(c,c))); $('tkCh').value=cur;
+  renderTicker();
+}
+['tkCh','tkOnly'].forEach(id=>$(id).addEventListener('input',renderTicker));
+setInterval(()=>{ if(document.visibilityState==='visible') loadTicker(); }, 5*60e3);
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') { loadTicker(); } });
 
 // ---- theme ----
 const applyTheme = v => { v ? document.documentElement.setAttribute('data-theme',v) : document.documentElement.removeAttribute('data-theme'); };
@@ -418,7 +479,7 @@ $('pushBtn').onclick = async () => {
 $('copySub').onclick = async () => { try { await navigator.clipboard.writeText($('subJson').textContent); toast('קוד המנוי הועתק'); } catch(_) { prompt('העתק:', $('subJson').textContent); } };
 $('testPush').onclick = () => { reg && reg.showNotification('בדיקת התראה', {body:'ככה תיראה התראה על עדכון בפיד', icon:'icons/icon-192.png', lang:'he', dir:'rtl', data:{url:'./#new'}}); };
 
-load();
+load(); loadTicker();
 </script>
 </body>
 </html>

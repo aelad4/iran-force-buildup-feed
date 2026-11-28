@@ -10,10 +10,13 @@ You are working in a clone of this repository (find it under `/home/user/`; the 
 - Out of scope: general politics, protests, economy, enrichment news with no military-capability angle, routine statements with nothing new.
 
 ## Sources and how to read them
-1. **Telegram** (public previews): run `python3 tg_fetch.py HANDLE ...`. Working handles: Iranian_Militarism, defapress_ir, sepah, farsna, iribnews, seghal_aja, hadshotiran, VahidOnline, IranintlTV, jangaavaran1390, AeroSpaceTalk, BisimchiMedia. `Tasnimnews` and `Partizan_ir` returned no messages; try them but expect none. Messages are mostly Persian: read them in Persian, write output in English.
-2. **Western and analyst sites** reachable from this environment: cna.org, navalnews.com, criticalthreats.org (ISW/CTP), missilethreat.csis.org, news.usni.org, iranintl.com, hisutton.com (via www.), israel-alma.org (Alma). Use `curl -sS -L -A "Mozilla/5.0" <url>` and read the pages. iiss.org, understandingwar.org and iranwatch.org may return 403: skip and note it.
+1. **Telegram** (public previews): run `python3 tg_fetch.py HANDLE ...`. Working handles: Iranian_Militarism, defapress_ir, sepah, farsna, iribnews, seghal_aja, hadshotiran, VahidOnline, IranintlTV, jangaavaran1390, AeroSpaceTalk, BisimchiMedia. Tasnim: the main channel `Tasnimnews` exists but Telegram shows no public messages for it, so read Tasnim's own sibling channels listed in its profile instead: `JahanTasnim` (world), `Tasnimnews_hebrew` (Hebrew), `Tasnimnovosti` (Russian). `Partizan_ir` returns no messages. Messages are mostly Persian: read them in Persian.
+2. **Western and analyst sites** reachable from this environment: cna.org, navalnews.com, criticalthreats.org (ISW/CTP), missilethreat.csis.org, news.usni.org, iranintl.com, hisutton.com (via www.). Use `curl -sS -L -A "Mozilla/5.0" <url>` and read the pages. iiss.org, understandingwar.org and iranwatch.org may return 403: skip and note it. Do not use israel-alma.org (Alma Center) or isis-online.org (Institute for Science and International Security website); do not list them as unreachable. If a news outlet reports on one of their work, you may still cite that outlet.
 3. **Iranian state-media websites** (tasnimnews, farsnews, mehrnews, defapress, kayhan, mashregh) refuse connections from this network. Reach their content through their Telegram channels instead.
 4. X/Twitter accounts (Fabian Hinz, Decker Eveleth, H.I. Sutton) and paywalled Janes are not reachable. Do not pretend otherwise.
+
+## Output language: Hebrew
+Write `title`, `summary` and `why_it_matters` of every item in **Hebrew**, whatever the source language (Persian, English, Arabic, Russian). Keep `source_name`, `url` and all enum values (categories, branches, source_type, verification, language) exactly as specified. Use standard Hebrew spellings for people and places; where there is no standard Hebrew term for a unit or weapon, keep its original name in Latin letters or Persian in parentheses. Do not soften or embellish when translating: keep claims attributed to whoever made them. The closing report is also in Hebrew.
 
 ## Procedure
 1. Read `feed.json` so you know what is already there. Lookback window: the last 48 hours.
@@ -37,7 +40,7 @@ You are working in a clone of this repository (find it under `/home/user/`; the 
     "title": "...", "url": "https://...", "source_name": "...", "source_domain": "...",
     "source_type": "state_media | irgc_media | telegram | independent_analyst | think_tank | government | news_outlet | database",
     "published_date": "YYYY-MM-DD or null", "language": "fa | en | ar | other",
-    "summary": "2-3 factual sentences", "why_it_matters": "1-2 sentences, with limits",
+    "summary": "2-3 factual sentences, in Hebrew", "why_it_matters": "1-2 sentences, in Hebrew, with limits",
     "categories": ["missiles|drones|air_defense|naval|air_force|space|c4isr_ew|procurement_transfer|production_capacity|budget|exercises|sanctions_networks|other"],
     "branches": ["artesh|irgc_ground|irgc_aerospace|irgc_navy|mod_industries|unspecified"],
     "significance": 1,

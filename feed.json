@@ -2,15 +2,15 @@
  "updated_at": "2026-11-28T06:21:22.072704+00:00",
  "items": [
   {
-   "title": "CTP-ISW: Drone attack in Kuwait killing Italian anti-drone technicians fits pattern of Iranian strikes on Gulf air defenses",
+   "title": "CTP-ISW: מתקפת רחפנים בכווית שהרגה טכנאים איטלקים של הגנה נגד רחפנים משתלבת בדפוס של תקיפות איראניות על הגנה אווירית במפרץ",
    "url": "https://www.criticalthreats.org/analysis/iran-update-november-27-2026",
    "source_name": "Critical Threats Project / ISW, Iran Update 27 Nov 2026",
    "source_domain": "criticalthreats.org",
    "source_type": "think_tank",
    "published_date": "2026-11-27",
    "language": "en",
-   "summary": "Kuwaiti and Italian authorities confirmed that shrapnel from intercepted Iranian drones killed two Italian technicians (reported by Italian media as Rheinmetall staff) maintaining anti-drone equipment at an air defense site in Kuwait on 26 Nov. Iran's armed forces spokesman denied involvement and suggested a false-flag operation. CTP-ISW assesses the strike is consistent with repeated Iranian attacks on US air defense systems in Bahrain and Kuwait in recent weeks, likely meant to degrade detection and interception ahead of possible renewed US/Israeli strikes.",
-   "why_it_matters": "Suggests Iran is using drones to target regional counter-drone and air defense assets specifically. Attribution rests on Kuwaiti/Italian statements; Iran denies it, and CTP's reading of intent is an assessment.",
+   "summary": "רשויות בכווית ובאיטליה אישרו ששברי רחפנים איראניים שיורטו הרגו שני טכנאים איטלקים (בתקשורת האיטלקית דווח שהם עובדי Rheinmetall) שתחזקו ציוד נגד רחפנים באתר הגנה אווירית בכווית ב-26 בנובמבר. דובר הכוחות המזוינים של איראן הכחיש מעורבות ורמז לפעולת דגל כוזב. CTP-ISW מעריך שהתקיפה עולה בקנה אחד עם תקיפות איראניות חוזרות על מערכות הגנה אווירית אמריקאיות בבחריין ובכווית בשבועות האחרונים, ככל הנראה כדי לפגוע ביכולות הגילוי והיירוט לפני תקיפות אמריקאיות או ישראליות אפשריות מחדש.",
+   "why_it_matters": "מרמז שאיראן משתמשת ברחפנים כדי לתקוף במיוחד נכסי הגנה אווירית ונגד רחפנים באזור. ייחוס התקיפה נשען על הצהרות של כווית ואיטליה; איראן מכחישה, וקריאת הכוונה של CTP היא הערכה.",
    "categories": [
     "drones",
     "air_defense"
@@ -23,15 +23,15 @@
    "found_at": "2026-11-28"
   },
   {
-   "title": "IRGC Navy claims two tankers hit naval mines near Khasab and east of Hormuz, says alternative route is mined",
+   "title": "חיל הים של המשמרות טוען ששתי מיכליות פגעו במוקשים ימיים ליד חסאב ומזרחית להורמוז, ואומר שהנתיב החלופי מוקשן",
    "url": "https://t.me/sepah/80526",
    "source_name": "Sepah News (IRGC) Telegram, IRGC Navy statement",
    "source_domain": "t.me",
    "source_type": "irgc_media",
    "published_date": "2026-11-27",
    "language": "fa",
-   "summary": "An IRGC Navy statement said one tanker struck a naval mine at the entrance to Khasab port and another exploded and caught fire on an 'unauthorized' route east of the Strait of Hormuz, alleging both had switched off their positioning systems to transit secretly. The IRGC Navy warned that the entire 'fake' route is seeded with 'very destructive' mines, and Sepah News posted a map of the claimed locations. Defa Press separately relayed a UKMTO report of a security incident involving a cargo ship in the Gulf of Oman the same evening.",
-   "why_it_matters": "If accurate, this is the IRGC Navy openly claiming an offensive mining campaign around Musandam, a significant sea-denial capability. The ship names, mine types and the extent of mining are unverified, and the UKMTO report does not clearly match either incident.",
+   "summary": "הודעה של חיל הים של המשמרות אמרה שמיכלית אחת פגעה במוקש ימי בכניסה לנמל חסאב, ואחרת התפוצצה והתלקחה בנתיב ״לא מורשה״ מזרחית למצר הורמוז, וטענה ששתיהן כיבו את מערכות המיקום כדי לעבור בסתר. חיל הים של המשמרות הזהיר שכל הנתיב ה״מזויף״ זרוע במוקשים ״הרסניים מאוד״, וסוכנות Sepah News פרסמה מפה של המיקומים הנטענים. סוכנות Defa Press העבירה בנפרד דיווח של UKMTO על אירוע ביטחוני שכלל ספינת מטען במפרץ עומאן באותו ערב.",
+   "why_it_matters": "אם הדברים מדויקים, זו הצהרה גלויה של חיל הים של המשמרות על מסע הנחת מוקשים באזור מוסנדם, יכולת משמעותית של מניעת גישה ימית. שמות הספינות, סוגי המוקשים והיקף המוקשים לא אומתו, ודיווח ה-UKMTO אינו תואם בבירור אף אחד מהאירועים.",
    "categories": [
     "naval"
    ],
@@ -43,15 +43,15 @@
    "found_at": "2026-11-28"
   },
   {
-   "title": "Artesh Navy commander claims a missile hot-tested the same day hit USS Abraham Lincoln; CENTCOM denies it",
+   "title": "מפקד הצי של הארטש טוען שטיל שנוסה באש חיה באותו יום פגע בנושאת המטוסים USS Abraham Lincoln; CENTCOM מכחיש",
    "url": "https://t.me/defapress_ir/73506",
    "source_name": "Defa Press Telegram (Armed Forces outlet)",
    "source_domain": "t.me",
    "source_type": "state_media",
    "published_date": "2026-11-27",
    "language": "fa",
-   "summary": "In Navy Day remarks, Artesh Navy commander Rear Admiral Shahram Irani said that on the second day of the 'Ramadan war' the navy struck the carrier USS Abraham Lincoln with a missile whose live ('hot') test was carried out that same day. He also claimed that a US destroyer was put out of action and that flight operations on Lincoln stopped (as relayed by BisimchiMedia). On 28 Nov CENTCOM said the claims were false and that the Lincoln strike group was never attacked and returned home safely last month.",
-   "why_it_matters": "The claim implies a previously untested anti-ship missile was rushed into combat use, but there is no evidence for it and the US explicitly rejects it. Track it as a claim only, in case details of the weapon type emerge.",
+   "summary": "בדברים ביום הצי אמר מפקד הצי של הארטש, אלוף משנה (אדמירל) שהרם איראני, שביום השני של ״מלחמת הרמדאן״ פגע הצי בנושאת המטוסים USS Abraham Lincoln בטיל שניסוי האש החיה שלו נערך באותו יום. הוא טען גם שמשחתת אמריקאית הושבתה ושפעילות התעופה על הלינקולן נעצרה (כפי שהועבר על ידי BisimchiMedia). ב-28 בנובמבר אמר CENTCOM שהטענות שקריות, שקבוצת התקיפה של הלינקולן מעולם לא הותקפה, ושהיא חזרה הביתה בשלום בחודש שעבר.",
+   "why_it_matters": "הטענה מרמזת שטיל נגד ספינות שלא נוסה בעבר הוכנס בחופזה לשימוש קרבי, אך אין לכך ראיות וארצות הברית דוחה אותה במפורש. יש לעקוב אחריה כטענה בלבד, למקרה שיתפרסמו פרטים על סוג הנשק.",
    "categories": [
     "missiles",
     "naval"
@@ -64,15 +64,15 @@
    "found_at": "2026-11-28"
   },
   {
-   "title": "ISIS imagery shows rapid construction of fortified Behjatabad underground complex between Isfahan and Natanz",
+   "title": "תצלומי ISIS מראים בנייה מהירה של מתחם תת-קרקעי מבוצר בבהג'תאבאד בין אספהאן לנתנז",
    "url": "https://www.iranintl.com/en/202611269924",
    "source_name": "Iran International (citing Institute for Science and International Security / Vantor imagery)",
    "source_domain": "iranintl.com",
    "source_type": "news_outlet",
    "published_date": "2026-11-26",
    "language": "en",
-   "summary": "The Institute for Science and International Security published Vantor satellite imagery (dated 24 Nov 2026) of a fortified underground complex at Behjatabad, about 62 km from both the Isfahan nuclear site and Pickaxe Mountain near Natanz, with a planned outer security perimeter of roughly 12,000 acres. Construction began in December 2025 and accelerated after the 2026 US campaign, according to imagery analyst Ben Tzion Macales, who first flagged the site on 17 Nov. ISIS says the function is unclear and could include housing missile or other major weapons systems; a nuclear purpose 'cannot be ruled out'.",
-   "why_it_matters": "Points to post-war reconstitution of hardened underground infrastructure, possibly for missile forces. Function is unassessed: ISIS says it will publish a fuller report, and the original ISIS post (on X) and its site were not reachable from here, so this relies on Iran International's account.",
+   "summary": "המכון למדע וביטחון בינלאומי (ISIS) פרסם תצלומי לוויין של Vantor (מ-24 בנובמבר 2026) של מתחם תת-קרקעי מבוצר בבהג'תאבאד, כ-62 ק״מ מאתר הגרעין באספהאן ומהר הטוריה (Pickaxe Mountain) ליד נתנז, עם היקף אבטחה חיצוני מתוכנן של כ-12,000 דונם אמריקאים (אקרים). לפי מנתח התצלומים בן ציון מקלס, שסימן את האתר לראשונה ב-17 בנובמבר, הבנייה החלה בדצמבר 2025 והואצה אחרי המערכה האמריקאית ב-2026. ISIS אומר שייעוד האתר אינו ברור וייתכן שיכלול אחסון טילים או מערכות נשק מרכזיות אחרות; שימוש גרעיני ״לא ניתן לשלול״.",
+   "why_it_matters": "מצביע על שיקום אחרי המלחמה של תשתית תת-קרקעית מוגנת, אולי לכוחות טילים. הייעוד לא הוערך: ISIS אומר שיפרסם דוח מלא יותר, והפרסום המקורי של ISIS (ב-X) ואתר המכון לא היו נגישים, ולכן הפריט נשען על הדיווח של Iran International.",
    "categories": [
     "other",
     "missiles",

@@ -1,1 +1,89 @@
-{"updated_at": null, "items": []}
+{
+ "updated_at": "2026-11-28T06:21:22.072704+00:00",
+ "items": [
+  {
+   "title": "CTP-ISW: Drone attack in Kuwait killing Italian anti-drone technicians fits pattern of Iranian strikes on Gulf air defenses",
+   "url": "https://www.criticalthreats.org/analysis/iran-update-november-27-2026",
+   "source_name": "Critical Threats Project / ISW, Iran Update 27 Nov 2026",
+   "source_domain": "criticalthreats.org",
+   "source_type": "think_tank",
+   "published_date": "2026-11-27",
+   "language": "en",
+   "summary": "Kuwaiti and Italian authorities confirmed that shrapnel from intercepted Iranian drones killed two Italian technicians (reported by Italian media as Rheinmetall staff) maintaining anti-drone equipment at an air defense site in Kuwait on 26 Nov. Iran's armed forces spokesman denied involvement and suggested a false-flag operation. CTP-ISW assesses the strike is consistent with repeated Iranian attacks on US air defense systems in Bahrain and Kuwait in recent weeks, likely meant to degrade detection and interception ahead of possible renewed US/Israeli strikes.",
+   "why_it_matters": "Suggests Iran is using drones to target regional counter-drone and air defense assets specifically. Attribution rests on Kuwaiti/Italian statements; Iran denies it, and CTP's reading of intent is an assessment.",
+   "categories": [
+    "drones",
+    "air_defense"
+   ],
+   "branches": [
+    "unspecified"
+   ],
+   "significance": 2,
+   "verification": "corroborated",
+   "found_at": "2026-11-28"
+  },
+  {
+   "title": "IRGC Navy claims two tankers hit naval mines near Khasab and east of Hormuz, says alternative route is mined",
+   "url": "https://t.me/sepah/80526",
+   "source_name": "Sepah News (IRGC) Telegram, IRGC Navy statement",
+   "source_domain": "t.me",
+   "source_type": "irgc_media",
+   "published_date": "2026-11-27",
+   "language": "fa",
+   "summary": "An IRGC Navy statement said one tanker struck a naval mine at the entrance to Khasab port and another exploded and caught fire on an 'unauthorized' route east of the Strait of Hormuz, alleging both had switched off their positioning systems to transit secretly. The IRGC Navy warned that the entire 'fake' route is seeded with 'very destructive' mines, and Sepah News posted a map of the claimed locations. Defa Press separately relayed a UKMTO report of a security incident involving a cargo ship in the Gulf of Oman the same evening.",
+   "why_it_matters": "If accurate, this is the IRGC Navy openly claiming an offensive mining campaign around Musandam, a significant sea-denial capability. The ship names, mine types and the extent of mining are unverified, and the UKMTO report does not clearly match either incident.",
+   "categories": [
+    "naval"
+   ],
+   "branches": [
+    "irgc_navy"
+   ],
+   "significance": 3,
+   "verification": "unverified_state_claim",
+   "found_at": "2026-11-28"
+  },
+  {
+   "title": "Artesh Navy commander claims a missile hot-tested the same day hit USS Abraham Lincoln; CENTCOM denies it",
+   "url": "https://t.me/defapress_ir/73506",
+   "source_name": "Defa Press Telegram (Armed Forces outlet)",
+   "source_domain": "t.me",
+   "source_type": "state_media",
+   "published_date": "2026-11-27",
+   "language": "fa",
+   "summary": "In Navy Day remarks, Artesh Navy commander Rear Admiral Shahram Irani said that on the second day of the 'Ramadan war' the navy struck the carrier USS Abraham Lincoln with a missile whose live ('hot') test was carried out that same day. He also claimed that a US destroyer was put out of action and that flight operations on Lincoln stopped (as relayed by BisimchiMedia). On 28 Nov CENTCOM said the claims were false and that the Lincoln strike group was never attacked and returned home safely last month.",
+   "why_it_matters": "The claim implies a previously untested anti-ship missile was rushed into combat use, but there is no evidence for it and the US explicitly rejects it. Track it as a claim only, in case details of the weapon type emerge.",
+   "categories": [
+    "missiles",
+    "naval"
+   ],
+   "branches": [
+    "artesh"
+   ],
+   "significance": 1,
+   "verification": "unverified_state_claim",
+   "found_at": "2026-11-28"
+  },
+  {
+   "title": "ISIS imagery shows rapid construction of fortified Behjatabad underground complex between Isfahan and Natanz",
+   "url": "https://www.iranintl.com/en/202611269924",
+   "source_name": "Iran International (citing Institute for Science and International Security / Vantor imagery)",
+   "source_domain": "iranintl.com",
+   "source_type": "news_outlet",
+   "published_date": "2026-11-26",
+   "language": "en",
+   "summary": "The Institute for Science and International Security published Vantor satellite imagery (dated 24 Nov 2026) of a fortified underground complex at Behjatabad, about 62 km from both the Isfahan nuclear site and Pickaxe Mountain near Natanz, with a planned outer security perimeter of roughly 12,000 acres. Construction began in December 2025 and accelerated after the 2026 US campaign, according to imagery analyst Ben Tzion Macales, who first flagged the site on 17 Nov. ISIS says the function is unclear and could include housing missile or other major weapons systems; a nuclear purpose 'cannot be ruled out'.",
+   "why_it_matters": "Points to post-war reconstitution of hardened underground infrastructure, possibly for missile forces. Function is unassessed: ISIS says it will publish a fuller report, and the original ISIS post (on X) and its site were not reachable from here, so this relies on Iran International's account.",
+   "categories": [
+    "other",
+    "missiles",
+    "production_capacity"
+   ],
+   "branches": [
+    "unspecified"
+   ],
+   "significance": 3,
+   "verification": "imagery_supported",
+   "found_at": "2026-11-28"
+  }
+ ]
+}

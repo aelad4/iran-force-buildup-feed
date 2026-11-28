@@ -6,7 +6,7 @@ and pushes new scored items to `feed.json`. `index.html` (GitHub Pages) displays
 - `ANALYST_PROMPT.md` - the instructions the daily task follows
 - `tg_fetch.py` - reads public Telegram channel previews
 - `merge_items.py` - validates, dedupes and merges new items into `feed.json`
-- `index.html` - the dashboard (filters: category, branch, source type, verification, significance, date, search)
+- `index.html` - the dashboard (filters: buildup axis, category, branch, source type, verification, significance, date, search)
 
 Item titles, summaries and notes are written in Hebrew; the dashboard is Hebrew (RTL).
 

@@ -29,6 +29,11 @@ h1{font-size:22px;margin:0 0 2px}
 .tag{border:1px solid var(--line);border-radius:999px;padding:1px 8px;font-size:12px;color:var(--mute)}
 .sig{font-weight:700}
 .v-unverified_state_claim{color:var(--warn)}.v-corroborated,.v-imagery_supported{color:var(--ok)}
+.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px}
+.axis{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;text-align:start;cursor:pointer}
+.axis b{font-size:18px;margin-inline-end:6px}.axis[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.axis[disabled]{opacity:.55;cursor:default}
+.tag.dom{color:var(--accent);border-color:var(--accent)}
 .empty{color:var(--mute);text-align:center;padding:40px 0}
 </style>
 </head>
@@ -37,8 +42,10 @@ h1{font-size:22px;margin:0 0 2px}
   <h1>פיד התעצמות צבאית של איראן</h1>
   <div class="sub" id="updated">טוען…</div>
   <div class="stats" id="stats"></div>
+  <div class="axes" id="axes" role="group" aria-label="צירי התעצמות"></div>
   <div class="filters">
     <input id="q" type="search" placeholder="חיפוש בכותרת, בתקציר, במקור…" aria-label="חיפוש">
+    <select id="dom" aria-label="ציר התעצמות"></select>
     <select id="cat" aria-label="קטגוריה"></select>
     <select id="branch" aria-label="זרוע"></select>
     <select id="stype" aria-label="סוג מקור"></select>
@@ -54,7 +61,9 @@ h1{font-size:22px;margin:0 0 2px}
 </div>
 <script>
 const $ = id => document.getElementById(id);
+const DOMAINS = ['personnel','training','weapons','infrastructure','organization'];
 const HE = {
+  personnel:'כוח אדם', training:'אימונים והכשרות', weapons:'אמל״ח ואמצעים', infrastructure:'תשתיות', organization:'מבנה וארגון',
   missiles:'טילים', drones:'כטב״מים ומל״טים', air_defense:'הגנה אווירית', naval:'ים', air_force:'חיל האוויר', space:'חלל',
   c4isr_ew:'פיקוד, בקרה ולוחמה אלקטרונית', procurement_transfer:'רכש והעברת טכנולוגיה', production_capacity:'יכולת ייצור',
   budget:'תקציב', exercises:'תרגילים', sanctions_networks:'סנקציות ורשתות רכש', other:'אחר',
@@ -76,12 +85,12 @@ function fillSelect(el, title, values){
 function itemDate(i){ return new Date(i.published_date || i.found_at || 0); }
 
 function render(){
-  const q = $('q').value.trim().toLowerCase(), cat=$('cat').value, br=$('branch').value,
+  const q = $('q').value.trim().toLowerCase(), dom=$('dom').value, cat=$('cat').value, br=$('branch').value,
         st=$('stype').value, ve=$('ver').value, sg=+$('sig').value, days=+$('range').value;
   const cutoff = days ? Date.now() - days*864e5 : 0;
   const shown = items.filter(i =>
     (!q || [i.title,i.summary,i.why_it_matters,i.source_name].join(' ').toLowerCase().includes(q)) &&
-    (!cat || (i.categories||[]).includes(cat)) && (!br || (i.branches||[]).includes(br)) &&
+    (!dom || (i.domains||[]).includes(dom)) && (!cat || (i.categories||[]).includes(cat)) && (!br || (i.branches||[]).includes(br)) &&
     (!st || i.source_type===st) && (!ve || i.verification===ve) &&
     (i.significance||0) >= sg && itemDate(i) >= cutoff);
   const list = $('list'); list.replaceChildren();
@@ -101,11 +110,19 @@ function render(){
     const why=document.createElement('div'); why.className='why'; why.dir='auto'; const b=document.createElement('b'); b.textContent='למה זה חשוב: ';
     why.append(b, i.why_it_matters||'');
     const tags=document.createElement('div'); tags.className='tags';
+    (i.domains||[]).forEach(t=>{const s=document.createElement('span');s.className='tag dom';s.textContent=label(t);tags.append(s)});
     [...(i.categories||[]),...(i.branches||[])].forEach(t=>{const s=document.createElement('span');s.className='tag';s.textContent=label(t);tags.append(s)});
     art.append(h,meta,sum,why,tags); list.append(art);
   }
 }
 
+function axes(){
+  const cur=$('dom').value;
+  $('axes').replaceChildren(...DOMAINS.map(k=>{const n=items.filter(i=>(i.domains||[]).includes(k)).length;
+    const btn=document.createElement('button');btn.type='button';btn.className='axis';btn.disabled=!n;btn.setAttribute('aria-pressed',String(cur===k));
+    const b=document.createElement('b');b.textContent=n;btn.append(b,label(k));
+    btn.onclick=()=>{$('dom').value=(cur===k?'':k);axes();render()};return btn}));
+}
 function stats(){
   const now=Date.now(), n=d=>items.filter(i=>itemDate(i)>=now-d*864e5).length;
   const high=items.filter(i=>(i.significance||0)>=4 && itemDate(i)>=now-7*864e5).length;
@@ -118,13 +135,15 @@ function stats(){
 fetch('./feed.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(d=>{
   items=(d.items||[]).slice().sort((a,b)=>itemDate(b)-itemDate(a));
   $('updated').textContent = d.updated_at ? 'הפיד עודכן ' + new Date(d.updated_at).toLocaleString('he-IL') : 'עדיין לא נאסף מידע';
+  $('dom').replaceChildren(new Option('כל צירי ההתעצמות',''), ...DOMAINS.map(k=>new Option(label(k),k)));
   fillSelect($('cat'),'כל הקטגוריות',items.flatMap(i=>i.categories||[]));
   fillSelect($('branch'),'כל הזרועות',items.flatMap(i=>i.branches||[]));
   fillSelect($('stype'),'כל סוגי המקורות',items.map(i=>i.source_type));
   fillSelect($('ver'),'כל רמות האימות',items.map(i=>i.verification));
-  stats(); render();
+  stats(); axes(); render();
 }).catch(e=>{$('updated').textContent='לא ניתן לטעון את feed.json ('+e.message+'). פתח את האתר המפורסם ולא את הקובץ.'});
-['q','cat','branch','stype','ver','sig','range'].forEach(id=>$(id).addEventListener('input',render));
+$('dom').addEventListener('input',axes);
+['q','dom','cat','branch','stype','ver','sig','range'].forEach(id=>$(id).addEventListener('input',render));
 </script>
 </body>
 </html>

@@ -20,7 +20,10 @@
    ],
    "significance": 2,
    "verification": "corroborated",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
    "title": "חיל הים של המשמרות טוען ששתי מיכליות פגעו במוקשים ימיים ליד חסאב ומזרחית להורמוז, ואומר שהנתיב החלופי מוקשן",
@@ -40,7 +43,10 @@
    ],
    "significance": 3,
    "verification": "unverified_state_claim",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
    "title": "מפקד הצי של הארטש טוען שטיל שנוסה באש חיה באותו יום פגע בנושאת המטוסים USS Abraham Lincoln; CENTCOM מכחיש",
@@ -61,7 +67,10 @@
    ],
    "significance": 1,
    "verification": "unverified_state_claim",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
    "title": "תצלומי ISIS מראים בנייה מהירה של מתחם תת-קרקעי מבוצר בבהג'תאבאד בין אספהאן לנתנז",
@@ -83,7 +92,10 @@
    ],
    "significance": 3,
    "verification": "imagery_supported",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "infrastructure"
+   ]
   },
   {
    "title": "ערם ניוז: מומחים מצפון קוריאה מסייעים מרחוק לאיראן בפיתוח משגרים בערי הטילים התת-קרקעיות; הערכה שרק כ-40% מכושר השיגור שוקם",
@@ -105,7 +117,11 @@
    ],
    "significance": 3,
    "verification": "single_source",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons",
+    "infrastructure"
+   ]
   },
   {
    "title": "קוריירה דלה סרה: ספינת משא איראנית שנפגעה בבנגאזי נשאה כנראה רכיבים אלקטרוניים מסין ומהודו ללוחמת רחפנים עבור כוחות חפתר",
@@ -127,7 +143,10 @@
    ],
    "significance": 2,
    "verification": "single_source",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
    "title": "CTP-ISW: המשמרות מפתחים גרסאות טיל \"היברידיות\" המשלבות את מנוע ה\"חאג' קאסם\" עם ראשי קרב מתמרנים של \"ח'יבר שכן\" ו\"פתאח-1\"",
@@ -148,7 +167,10 @@
    ],
    "significance": 3,
    "verification": "unverified_state_claim",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
    "title": "סגן מפקד מטה ת'ארללה של המשמרות: \"לא רוסיה ולא סין נתנו לנו תחמושת או נשק\"; חבר פרלמנט מציין שרוסיה לא סיפקה S-400",
@@ -169,7 +191,10 @@
    ],
    "significance": 2,
    "verification": "single_source",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
    "title": "חבר ועדת הביטחון בפרלמנט טוען שטווח הטילים של איראן הוגדל ל-4,500 ק\"מ; מומחים: אב-טיפוס של טיל לטווח ביניים קיים, אך לא הוכחה יכולת אמינה",
@@ -189,7 +214,10 @@
    ],
    "significance": 2,
    "verification": "unverified_state_claim",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
    "title": "ראש סוכנות החלל האיראנית: יותר מ-35 לוויינים בבנייה, ושלב ראשון של 24 לוויינים במערך \"שהיד סולימאני\"",
@@ -210,7 +238,10 @@
    ],
    "significance": 2,
    "verification": "unverified_state_claim",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
    "title": "ההגנה האווירית של המשמרות ושל הארטש טוענות להפלת MQ-1 העשרים ולהפלת רחפני LUCAS ו-MQ-9 מעל מצר הורמוז",
@@ -231,10 +262,13 @@
    ],
    "significance": 2,
    "verification": "unverified_state_claim",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
-   "title": "סגל המשמרות חושף \"עיר טילים\" תת-קרקעית חדשה ומשגר חדש לשני טילים, בביקור ראשון של מפקד המשמרות אחמד וחידי",
+   "title": "משמרות המהפכה חושפים \"עיר טילים\" תת-קרקעית חדשה ומשגר חדש לשני טילים, בביקור ראשון של מפקד המשמרות אחמד וחידי",
    "url": "https://t.me/sepah/80133",
    "source_name": "Sepah News (IRGC) Telegram",
    "source_domain": "t.me",
@@ -252,7 +286,11 @@
    ],
    "significance": 3,
    "verification": "unverified_state_claim",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons",
+    "infrastructure"
+   ]
   },
   {
    "title": "חיל החלל של המשמרות תקף בטילים וברחפנים מכ\"מי פטריוט אמריקאיים בבסיסי אל-ריפאע ועוואלי-סח'יר בבחריין",
@@ -274,7 +312,10 @@
    ],
    "significance": 2,
    "verification": "corroborated",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   },
   {
    "title": "CTP-ISW: פגיעות בחדרי מכונות של מיכליות ליד חסאב מרמזות שאיראן משתמשת ברחפנים או בטילי שיוט עם הנחיה סופית אינפרה-אדומה",
@@ -296,7 +337,10 @@
    ],
    "significance": 2,
    "verification": "single_source",
-   "found_at": "2026-11-28"
+   "found_at": "2026-11-28",
+   "domains": [
+    "weapons"
+   ]
   }
  ]
 }

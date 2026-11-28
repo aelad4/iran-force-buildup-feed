@@ -13,8 +13,9 @@ SOURCE_TYPES = {"state_media", "irgc_media", "telegram", "independent_analyst", 
 VERIFICATION = {"unverified_state_claim", "single_source", "corroborated", "imagery_supported"}
 CATEGORIES = {"missiles", "drones", "air_defense", "naval", "air_force", "space", "c4isr_ew", "procurement_transfer",
               "production_capacity", "budget", "exercises", "sanctions_networks", "other"}
+DOMAINS = {"personnel", "training", "weapons", "infrastructure", "organization"}
 BRANCHES = {"artesh", "irgc_ground", "irgc_aerospace", "irgc_navy", "mod_industries", "unspecified"}
-REQUIRED = ("title", "url", "source_name", "source_type", "summary", "why_it_matters", "categories", "branches",
+REQUIRED = ("title", "url", "source_name", "source_type", "summary", "why_it_matters", "domains", "categories", "branches",
             "significance", "verification")
 
 
@@ -38,6 +39,8 @@ def problems(i):
         return f"verification {i['verification']}"
     if not set(i["categories"]) <= CATEGORIES or not set(i["branches"]) <= BRANCHES:
         return "unknown category/branch"
+    if not i["domains"] or not set(i["domains"]) <= DOMAINS:
+        return f"domains {i['domains']} (need 1+ of {sorted(DOMAINS)})"
     return None
 
 

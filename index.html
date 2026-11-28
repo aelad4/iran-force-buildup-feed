@@ -130,7 +130,7 @@ input[type=search],select,textarea{background:var(--card);color:var(--ink);borde
 
   <!-- Breaking ticker -->
   <section id="v-ticker" data-view hidden>
-    <div class="warnbox">מבזק: הודעות גולמיות מערוצי טלגרם שנבחרו לפי מילות מפתח, מתעדכן בערך כל 20 דקות. <b>ללא סינון, תרגום או אימות</b>, ורובן תעמולה ממלכתית. הפריטים המנותחים נמצאים ב"מה חדש".</div>
+    <div class="warnbox">מבזק: הודעות גולמיות מערוצי טלגרם שנבחרו לפי מילות מפתח, מתעדכן בערך כל 20 דקות, עם תרגום אוטומטי לעברית. <b>ללא סינון או אימות</b>, ורובן תעמולה ממלכתית. הפריטים המנותחים נמצאים ב"מה חדש".</div>
     <div class="fgrid">
       <select id="tkCh" aria-label="ערוץ"></select>
       <select id="tkOnly" aria-label="סוג"><option value="">כל ההתאמות</option><option value="alert">רק חשובות (מסומנות בכתום)</option></select>
@@ -400,16 +400,22 @@ function renderTicker(){
     const m=document.createElement('div'); m.className='meta';
     const c=document.createElement('b'); c.textContent=i.channel; m.append(c, ' · '+rel(i.date));
     (i.matched||[]).slice(0,4).forEach(k=>{const t=document.createElement('span');t.className='tag';t.textContent=k;m.append(t)});
-    const t=document.createElement('div'); t.className='txt'; t.dir='auto'; t.textContent=i.text; t.onclick=()=>t.classList.toggle('open');
+    let showOrig = !i.he;
+    const t=document.createElement('div'); t.className='txt'; t.dir='auto'; t.onclick=()=>t.classList.toggle('open');
+    const note=document.createElement('div'); note.className='muted';
+    const paint=()=>{ t.textContent = showOrig ? i.text : i.he; t.lang = showOrig ? '' : 'he';
+      note.textContent = !i.he ? 'טרם תורגם (יתורגם בריצה הבאה)' : showOrig ? 'מקור' : 'תרגום אוטומטי לעברית, לא נבדק'; };
+    paint();
     const a=document.createElement('div'); a.className='acts';
     const tg=document.createElement('a'); tg.className='act'; tg.href=safeUrl(i.permalink); tg.target='_blank'; tg.rel='noopener noreferrer'; tg.textContent='✈ בטלגרם';
-    const tr=document.createElement('a'); tr.className='act'; tr.target='_blank'; tr.rel='noopener noreferrer'; tr.textContent='תרגום (Google)';
-    tr.href='https://translate.google.com/?sl=auto&tl=iw&op=translate&text='+encodeURIComponent(i.text.slice(0,1500));
+    const tr=document.createElement('button'); tr.type='button'; tr.className='act'; tr.hidden=!i.he;
+    const trLabel=()=>{ tr.textContent = showOrig ? 'עב תרגום' : 'מקור'; tr.setAttribute('aria-pressed', String(!showOrig)); };
+    trLabel(); tr.onclick=()=>{ showOrig=!showOrig; paint(); trLabel(); };
     const sh=document.createElement('button'); sh.type='button'; sh.className='act'; sh.textContent='⤴ שיתוף';
-    sh.onclick=async()=>{const text=`[מבזק גולמי, לא מאומת] ${i.channel}\n${i.text.slice(0,600)}\n${i.permalink}`;
+    sh.onclick=async()=>{const text=`[מבזק גולמי, לא מאומת] ${i.channel}\n${(i.he||i.text).slice(0,600)}${i.he?'\n(תרגום אוטומטי)':''}\n${i.permalink}`;
       try{ if(navigator.share){await navigator.share({text});return} }catch(e){ if(e&&e.name==='AbortError')return }
       try{await navigator.clipboard.writeText(text);toast('הועתק')}catch(_){prompt('העתק:',text)}};
-    a.append(tg,tr,sh); d.append(m,t,a); box.append(d);
+    a.append(tr,tg,sh); d.append(m,t,note,a); box.append(d);
   });
 }
 function markTickerSeen(){ S.tickerSeenAt=new Date().toISOString(); save(); renderTicker(); }

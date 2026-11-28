@@ -1,5 +1,5 @@
 {
- "_note": "Breaking-news ticker (raw, unvetted). Edited by hand; the ticker workflow reads it every run. 'match' selects messages, 'alert' marks the ones that trigger a push notification, 'require' (per channel) is an extra filter for non-Iranian channels.",
+ "_note": "Breaking-news ticker (raw, unvetted). Edited by hand; the ticker workflow reads it every run. 'match' selects messages, 'alert' marks the ones that trigger a push notification, 'require' (per channel) is an extra filter for non-Iranian channels. Translation to Hebrew runs only when the ANTHROPIC_API_KEY secret is set; 'translate_model' picks the Claude model.",
  "window_hours": 48,
  "max_items": 400,
  "alert_min_interval_minutes": 120,
@@ -39,5 +39,8 @@
   "clashreport": {
    "require": "Iran|IRGC|Tehran"
   }
- }
+ },
+ "translate_model": "claude-opus-5-5",
+ "translate_effort": "low",
+ "translate_max_per_run": 60
 }

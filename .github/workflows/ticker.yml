@@ -24,8 +24,12 @@ jobs:
         run: |
           mkdir -p out
           git fetch --depth 1 origin ticker:refs/remotes/origin/ticker 2>/dev/null && git show origin/ticker:ticker.json > prev.json || echo '{}' > prev.json
-      - name: Collect
-        run: python3 .github/scripts/ticker.py prev.json out
+      - name: Collect and translate
+        run: |
+          pip install --quiet --disable-pip-version-check anthropic
+          python3 .github/scripts/ticker.py prev.json out
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       - name: Publish to the ticker branch (single commit, not main)
         run: |
           if [ "$(cat out/changed)" != "1" ]; then echo "No change"; exit 0; fi

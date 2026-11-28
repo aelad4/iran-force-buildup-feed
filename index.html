@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Iran Force Buildup Feed</title>
+<title>פיד התעצמות צבאית של איראן</title>
 <style>
 :root{--bg:#f6f7f9;--card:#fff;--ink:#14181f;--mute:#5d6676;--line:#dfe3ea;--accent:#1f5fbf;
 --s1:#8a93a3;--s2:#4a7fc1;--s3:#c58a12;--s4:#d4620f;--s5:#c0262d;--warn:#9a5b00;--ok:#1d7a46}
@@ -20,7 +20,7 @@ h1{font-size:22px;margin:0 0 2px}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
 .filters input,.filters select{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;min-width:0}
 .filters input{flex:1 1 220px}
-.item{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--s1);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.item{background:var(--card);border:1px solid var(--line);border-inline-start:5px solid var(--s1);border-radius:10px;padding:12px 14px;margin-bottom:10px}
 .item h2{font-size:16px;margin:0 0 4px}
 .item h2 a{color:var(--ink);text-decoration:none}.item h2 a:hover{color:var(--accent);text-decoration:underline}
 .meta{color:var(--mute);font-size:12.5px;margin-bottom:6px}
@@ -34,27 +34,38 @@ h1{font-size:22px;margin:0 0 2px}
 </head>
 <body>
 <div class="wrap">
-  <h1>Iran Force Buildup Feed</h1>
-  <div class="sub" id="updated">Loading…</div>
+  <h1>פיד התעצמות צבאית של איראן</h1>
+  <div class="sub" id="updated">טוען…</div>
   <div class="stats" id="stats"></div>
   <div class="filters">
-    <input id="q" type="search" placeholder="Search title, summary, source…" aria-label="Search">
-    <select id="cat" aria-label="Category"></select>
-    <select id="branch" aria-label="Branch"></select>
-    <select id="stype" aria-label="Source type"></select>
-    <select id="ver" aria-label="Verification"></select>
-    <select id="sig" aria-label="Minimum significance">
-      <option value="0">Any significance</option><option value="3">3+</option><option value="4">4+</option><option value="5">5 only</option>
+    <input id="q" type="search" placeholder="חיפוש בכותרת, בתקציר, במקור…" aria-label="חיפוש">
+    <select id="cat" aria-label="קטגוריה"></select>
+    <select id="branch" aria-label="זרוע"></select>
+    <select id="stype" aria-label="סוג מקור"></select>
+    <select id="ver" aria-label="אימות"></select>
+    <select id="sig" aria-label="משמעותיות מינימלית">
+      <option value="0">כל רמות המשמעותיות</option><option value="3">3 ומעלה</option><option value="4">4 ומעלה</option><option value="5">5 בלבד</option>
     </select>
-    <select id="range" aria-label="Date range">
-      <option value="0">All time</option><option value="1">Last 24h</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option>
+    <select id="range" aria-label="טווח תאריכים">
+      <option value="0">כל הזמנים</option><option value="1">24 שעות אחרונות</option><option value="7">7 ימים אחרונים</option><option value="30">30 ימים אחרונים</option>
     </select>
   </div>
   <div id="list"></div>
 </div>
 <script>
 const $ = id => document.getElementById(id);
-const label = s => String(s||'').replace(/_/g,' ');
+const HE = {
+  missiles:'טילים', drones:'כטב״מים ומל״טים', air_defense:'הגנה אווירית', naval:'ים', air_force:'חיל האוויר', space:'חלל',
+  c4isr_ew:'פיקוד, בקרה ולוחמה אלקטרונית', procurement_transfer:'רכש והעברת טכנולוגיה', production_capacity:'יכולת ייצור',
+  budget:'תקציב', exercises:'תרגילים', sanctions_networks:'סנקציות ורשתות רכש', other:'אחר',
+  artesh:'צבא (ארטש)', irgc_ground:'כוחות היבשה של המשמרות', irgc_aerospace:'חיל החלל של המשמרות', irgc_navy:'חיל הים של המשמרות',
+  mod_industries:'משרד הביטחון ותעשיותיו', unspecified:'לא מוגדר',
+  state_media:'תקשורת ממלכתית', irgc_media:'תקשורת המשמרות', telegram:'טלגרם', independent_analyst:'אנליסט עצמאי',
+  think_tank:'מכון מחקר', government:'גוף ממשלתי', news_outlet:'כלי חדשות', database:'מאגר נתונים',
+  unverified_state_claim:'טענה ממלכתית לא מאומתת', single_source:'מקור יחיד', corroborated:'מאושר ממקור נוסף', imagery_supported:'נתמך בתצלומים',
+  fa:'פרסית', en:'אנגלית', ar:'ערבית'
+};
+const label = s => HE[s] || String(s||'').replace(/_/g,' ');
 const safeUrl = u => /^https?:\/\//i.test(u||'') ? u : '#';
 let items = [];
 
@@ -75,19 +86,19 @@ function render(){
     (i.significance||0) >= sg && itemDate(i) >= cutoff);
   const list = $('list'); list.replaceChildren();
   if(!shown.length){ const d=document.createElement('div'); d.className='empty';
-    d.textContent = items.length ? 'No items match these filters.' : 'No items yet. Run the sync after the first agent run.'; list.append(d); }
+    d.textContent = items.length ? 'אין פריטים שמתאימים למסננים.' : 'עדיין אין פריטים. הם יופיעו אחרי הריצה הראשונה.'; list.append(d); }
   const color = ['','--s1','--s2','--s3','--s4','--s5'];
   for(const i of shown){
     const art=document.createElement('article'); art.className='item';
-    art.style.borderLeftColor=`var(${color[Math.min(5,Math.max(1,i.significance||1))]})`;
-    const h=document.createElement('h2'), a=document.createElement('a');
-    a.href=safeUrl(i.url); a.target='_blank'; a.rel='noopener noreferrer'; a.textContent=i.title||'(untitled)'; h.append(a);
+    art.style.borderInlineStartColor=`var(${color[Math.min(5,Math.max(1,i.significance||1))]})`;
+    const h=document.createElement('h2'), a=document.createElement('a'); h.dir='auto';
+    a.href=safeUrl(i.url); a.target='_blank'; a.rel='noopener noreferrer'; a.textContent=i.title||'(ללא כותרת)'; h.append(a);
     const meta=document.createElement('div'); meta.className='meta';
-    const sig=document.createElement('span'); sig.className='sig'; sig.textContent=`Significance ${i.significance||'?'}`;
+    const sig=document.createElement('span'); sig.className='sig'; sig.textContent=`משמעותיות ${i.significance||'?'}`;
     const ver=document.createElement('span'); ver.className='v-'+i.verification; ver.textContent=label(i.verification);
-    meta.append(sig, ` · ${i.source_name||''} (${label(i.source_type)}) · ${i.published_date||'date unknown'} · ${(i.language||'').toUpperCase()} · `, ver);
-    const sum=document.createElement('div'); sum.textContent=i.summary||'';
-    const why=document.createElement('div'); why.className='why'; const b=document.createElement('b'); b.textContent='Why it matters: ';
+    meta.append(sig, ` · ${i.source_name||''} (${label(i.source_type)}) · ${i.published_date||'תאריך לא ידוע'} · ${label(i.language)} · `, ver);
+    const sum=document.createElement('div'); sum.textContent=i.summary||''; sum.dir='auto';
+    const why=document.createElement('div'); why.className='why'; why.dir='auto'; const b=document.createElement('b'); b.textContent='למה זה חשוב: ';
     why.append(b, i.why_it_matters||'');
     const tags=document.createElement('div'); tags.className='tags';
     [...(i.categories||[]),...(i.branches||[])].forEach(t=>{const s=document.createElement('span');s.className='tag';s.textContent=label(t);tags.append(s)});
@@ -99,20 +110,20 @@ function stats(){
   const now=Date.now(), n=d=>items.filter(i=>itemDate(i)>=now-d*864e5).length;
   const high=items.filter(i=>(i.significance||0)>=4 && itemDate(i)>=now-7*864e5).length;
   const claims=items.filter(i=>i.verification==='unverified_state_claim').length;
-  const data=[[items.length,'Total items'],[n(1),'Last 24h'],[n(7),'Last 7 days'],[high,'Significance 4+ (7d)'],[claims,'Unverified state claims']];
+  const data=[[items.length,'סה״כ פריטים'],[n(1),'24 שעות אחרונות'],[n(7),'7 ימים אחרונים'],[high,'משמעותיות 4+ (7 ימים)'],[claims,'טענות ממלכתיות לא מאומתות']];
   $('stats').replaceChildren(...data.map(([v,l])=>{const d=document.createElement('div');d.className='stat';
     const b=document.createElement('b');b.textContent=v;const s=document.createElement('span');s.textContent=l;d.append(b,s);return d}));
 }
 
 fetch('./feed.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(d=>{
   items=(d.items||[]).slice().sort((a,b)=>itemDate(b)-itemDate(a));
-  $('updated').textContent = d.updated_at ? 'Feed updated ' + new Date(d.updated_at).toLocaleString() : 'No data synced yet';
-  fillSelect($('cat'),'All categories',items.flatMap(i=>i.categories||[]));
-  fillSelect($('branch'),'All branches',items.flatMap(i=>i.branches||[]));
-  fillSelect($('stype'),'All source types',items.map(i=>i.source_type));
-  fillSelect($('ver'),'All verification levels',items.map(i=>i.verification));
+  $('updated').textContent = d.updated_at ? 'הפיד עודכן ' + new Date(d.updated_at).toLocaleString('he-IL') : 'עדיין לא נאסף מידע';
+  fillSelect($('cat'),'כל הקטגוריות',items.flatMap(i=>i.categories||[]));
+  fillSelect($('branch'),'כל הזרועות',items.flatMap(i=>i.branches||[]));
+  fillSelect($('stype'),'כל סוגי המקורות',items.map(i=>i.source_type));
+  fillSelect($('ver'),'כל רמות האימות',items.map(i=>i.verification));
   stats(); render();
-}).catch(e=>{$('updated').textContent='Could not load feed.json ('+e.message+'). Open the published page, not the file.'});
+}).catch(e=>{$('updated').textContent='לא ניתן לטעון את feed.json ('+e.message+'). פתח את האתר המפורסם ולא את הקובץ.'});
 ['q','cat','branch','stype','ver','sig','range'].forEach(id=>$(id).addEventListener('input',render));
 </script>
 </body>

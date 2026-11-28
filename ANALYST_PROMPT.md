@@ -7,8 +7,8 @@ You are working in a clone of this repository (find it under `/home/user/`; the 
 ## Scope (in)
 - Branches: Artesh (army, navy, air force, air defense), IRGC (ground, Aerospace Force, IRGC Navy), Ministry of Defense and its industries.
 - Topics: ballistic and cruise missiles, drones and loitering munitions, air defense, naval vessels and basing, combat aircraft, space launch and satellites, C4ISR and electronic warfare, arms deals and technology transfer (Russia, China, North Korea, others), production capacity, defense budgets, exercises that reveal new capabilities, sanctions and procurement-network exposure.
-- Also in scope, when there is something concrete and new: manpower (recruitment, conscription, force size, senior appointments and losses), training (courses, academies, foreign training, exercises), infrastructure (bases, missile cities, tunnels, factories, ports, airfields, their construction or repair) and force structure (new units, commands, reorganisations, Basij integration).
-- Out of scope: general politics, protests, economy, enrichment news with no military-capability angle, routine statements with nothing new.
+- Also in scope, when there is something concrete and new: manpower (recruitment, conscription, force size, senior appointments and losses), training (courses, academies, foreign training, exercises), infrastructure (bases, missile cities, tunnels, factories, ports, airfields, their construction or repair) and force structure (new units, commands, reorganisations, Basij integration), and speeches and statements by senior commanders, officials and lawmakers that announce a capability, production figure, doctrine or intent (quote them accurately, attributed, as claims).
+- Out of scope: general politics, protests, economy, enrichment news with no military-capability angle, routine statements and slogans with nothing new (no new capability, number, order or doctrine).
 
 ## Sources and how to read them
 1. **Telegram** (public previews): run `python3 tg_fetch.py HANDLE ...`. Working handles: Iranian_Militarism, defapress_ir, sepah, farsna, iribnews, seghal_aja, hadshotiran, VahidOnline, IranintlTV, jangaavaran1390, AeroSpaceTalk, BisimchiMedia. Tasnim: the main channel `Tasnimnews` exists but Telegram shows no public messages for it, so read Tasnim's own sibling channels listed in its profile instead: `JahanTasnim` (world), `Tasnimnews_hebrew` (Hebrew), `Tasnimnovosti` (Russian). `Partizan_ir` returns no messages. Messages are mostly Persian: read them in Persian.
@@ -42,7 +42,7 @@ Write `title`, `summary` and `why_it_matters` of every item in **Hebrew**, whate
     "source_type": "state_media | irgc_media | telegram | independent_analyst | think_tank | government | news_outlet | database",
     "published_date": "YYYY-MM-DD or null", "language": "fa | en | ar | other",
     "summary": "2-3 factual sentences, in Hebrew", "why_it_matters": "1-2 sentences, in Hebrew, with limits",
-    "domains": ["personnel|training|weapons|infrastructure|organization"],
+    "domains": ["personnel|training|weapons|infrastructure|organization|statements"],
     "categories": ["missiles|drones|air_defense|naval|air_force|space|c4isr_ew|procurement_transfer|production_capacity|budget|exercises|sanctions_networks|other"],
     "branches": ["artesh|irgc_ground|irgc_aerospace|irgc_navy|mod_industries|unspecified"],
     "significance": 1,
@@ -50,6 +50,6 @@ Write `title`, `summary` and `why_it_matters` of every item in **Hebrew**, whate
   }]
 }
 ```
-`domains` sorts every item into one or more of the five buildup axes (at least one is required): `personnel` (כוח אדם: manpower, recruitment, commanders), `training` (אימונים והכשרות: training, courses, exercises), `weapons` (אמל"ח ואמצעים: weapons systems, platforms, munitions, sensors, their procurement, transfer and use), `infrastructure` (תשתיות: bases, missile cities, tunnels, production sites, ports, airfields), `organization` (מבנה וארגון: units, commands, chain of command, doctrine). Pick what the item is substantively about, not every axis it touches.
+`domains` sorts every item into one or more of six axes (at least one is required): `personnel` (כוח אדם: manpower, recruitment, commanders), `training` (אימונים והכשרות: training, courses, exercises), `weapons` (אמל"ח ואמצעים: weapons systems, platforms, munitions, sensors, their procurement, transfer and use), `infrastructure` (תשתיות: bases, missile cities, tunnels, production sites, ports, airfields), `organization` (מבנה וארגון: units, commands, chain of command, doctrine), `statements` (נאומים והצהרות: speeches, interviews and official statements by commanders, officials and lawmakers). Give an item `statements` when a statement is its substance, alongside the axis the statement is about (for example `statements` + `weapons` for a production claim). Pick what the item is substantively about, not every axis it touches.
 
 `significance`: 1 routine, 2 notable detail, 3 meaningful capability or procurement development, 4 major, 5 strategic shift. Use 4-5 rarely and only with a stated concrete basis. Telegram channels run by IRGC or state outlets are `irgc_media` or `state_media`; other channels are `telegram`.

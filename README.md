@@ -7,7 +7,10 @@ and pushes new scored items to `feed.json`. `index.html` (GitHub Pages) displays
 - `SOURCES.md` - the source list (Telegram channels, reachable and blocked websites); the daily task reads it and adds new sources
 - `tg_fetch.py` - reads public Telegram channel previews
 - `merge_items.py` - validates, dedupes and merges new items into `feed.json`
-- `index.html` - the dashboard (filters: buildup axis (personnel, training, weapons, infrastructure, organization, statements), category, branch, source type, verification, significance, date, search)
+- `index.html`, `sw.js`, `manifest.webmanifest`, `icons/` - the installable web app (PWA): what's new since your last visit, the daily key points, marks (read, deep-dive with notes), one-tap sharing, offline reading and Web Push
+- `digests.json` - the key points of each run (written by `merge_items.py` from the run's `digest`)
+- `.github/workflows/notify.yml` - sends a push notification when `feed.json` gains items (needs the `VAPID_PRIVATE_KEY` and `PUSH_SUBSCRIPTIONS` secrets)
+- the dashboard (filters: buildup axis (personnel, training, weapons, infrastructure, organization, statements), category, branch, source type, verification, significance, date, search)
 
 Item titles, summaries and notes are written in Hebrew; the dashboard is Hebrew (RTL).
 

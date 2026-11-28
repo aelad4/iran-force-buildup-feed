@@ -1,0 +1,33 @@
+name: Push notifications
+
+on:
+  push:
+    branches: [main]
+    paths: [feed.json]
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "Test message (leave empty to describe the latest feed change)"
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save web-push@3.6.7
+      - run: node .github/scripts/notify.mjs
+        env:
+          VAPID_PUBLIC_KEY: BLc2K01WJDQmjZQLU_hLfytCcWmphspJV6sAV7JojTbKclOY6T8ywAFTtNn463MQhpb2kABlYQ3WBR6Qe6F47gg
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          PUSH_SUBSCRIPTIONS: ${{ secrets.PUSH_SUBSCRIPTIONS }}
+          APP_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+          TEST_MESSAGE: ${{ github.event.inputs.message }}

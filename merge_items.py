@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Validate new_items.json and merge it into feed.json (dedupe by canonical URL).
+An optional top-level "digest" (list of 3-7 Hebrew bullet strings) is stored in digests.json for the app.
 
 Usage: python3 merge_items.py /path/to/new_items.json
 """
@@ -9,6 +10,7 @@ from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 
 FEED = Path(__file__).parent / "feed.json"
+DIGESTS = Path(__file__).parent / "digests.json"
 SOURCE_TYPES = {"state_media", "irgc_media", "telegram", "independent_analyst", "think_tank", "government", "news_outlet", "database"}
 VERIFICATION = {"unverified_state_claim", "single_source", "corroborated", "imagery_supported"}
 CATEGORIES = {"missiles", "drones", "air_defense", "naval", "air_force", "space", "c4isr_ew", "transfer_to_iran", "transfer_from_iran",
@@ -51,6 +53,7 @@ def main():
     feed = json.loads(FEED.read_text()) if FEED.exists() else {"items": []}
     by_url = {canon(i["url"]): i for i in feed.get("items", [])}
     today = new.get("run_date") or datetime.now(timezone.utc).date().isoformat()
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     added = rejected = 0
     for item in new.get("items", []):
         why = problems(item)
@@ -62,15 +65,25 @@ def main():
         old = by_url.get(key)
         if old is None:
             item["found_at"] = today
+            item["added_at"] = now
             by_url[key] = item
             added += 1
         elif item["significance"] > old.get("significance", 0):
             item["found_at"] = old.get("found_at", today)
+            item["added_at"] = old.get("added_at", now)
             by_url[key] = item
     items = sorted(by_url.values(), key=lambda i: i.get("published_date") or i.get("found_at") or "", reverse=True)
     FEED.write_text(json.dumps({"updated_at": datetime.now(timezone.utc).isoformat(), "items": items},
                                ensure_ascii=False, indent=1) + "\n")
-    print(f"added={added} rejected={rejected} total={len(items)}")
+    digest = [str(b).strip() for b in new.get("digest") or [] if str(b).strip()]
+    if digest:
+        store = json.loads(DIGESTS.read_text()) if DIGESTS.exists() else {"digests": []}
+        entries = [d for d in store.get("digests", []) if d.get("generated_at") != now]
+        entries.insert(0, {"date": today, "generated_at": now, "added": added, "bullets": digest[:7]})
+        DIGESTS.write_text(json.dumps({"digests": entries[:90]}, ensure_ascii=False, indent=1) + "\n")
+    elif added:
+        print("WARNING: no digest given; add a top-level \"digest\" list of Hebrew bullets")
+    print(f"added={added} rejected={rejected} total={len(items)} digest_bullets={len(digest)}")
 
 
 if __name__ == "__main__":

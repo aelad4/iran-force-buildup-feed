@@ -2,148 +2,423 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>פיד התעצמות צבאית של איראן</title>
+<meta name="description" content="פיד OSINT יומי על התעצמות הכוחות המזוינים של איראן">
+<meta name="theme-color" content="#14181f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/favicon-64.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="התעצמות איראן">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#14181f;--mute:#5d6676;--line:#dfe3ea;--accent:#1f5fbf;
---s1:#8a93a3;--s2:#4a7fc1;--s3:#c58a12;--s4:#d4620f;--s5:#c0262d;--warn:#9a5b00;--ok:#1d7a46}
-@media (prefers-color-scheme:dark){:root{--bg:#0f1218;--card:#171c25;--ink:#e8ebf1;--mute:#98a1b2;--line:#2a3140;--accent:#6aa3ff;
---s1:#7c8597;--s2:#6aa3ff;--s3:#e0a530;--s4:#f08a3c;--s5:#ff6b73;--warn:#e0a530;--ok:#4cc38a}}
+:root{--bg:#f6f7f9;--card:#fff;--ink:#14181f;--mute:#5d6676;--line:#dfe3ea;--accent:#1f5fbf;--accent-soft:#e6eefb;
+--s1:#8a93a3;--s2:#4a7fc1;--s3:#c58a12;--s4:#d4620f;--s5:#c0262d;--warn:#9a5b00;--ok:#1d7a46;--new:#c0262d;--bar:#ffffff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1218;--card:#171c25;--ink:#e8ebf1;--mute:#98a1b2;--line:#2a3140;--accent:#6aa3ff;--accent-soft:#1c2a42;
+--s1:#7c8597;--s2:#6aa3ff;--s3:#e0a530;--s4:#f08a3c;--s5:#ff6b73;--warn:#e0a530;--ok:#4cc38a;--new:#ff6b73;--bar:#141922}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-.wrap{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
-h1{font-size:22px;margin:0 0 2px}
-.sub{color:var(--mute);font-size:13px;margin-bottom:16px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
-.stat b{display:block;font-size:22px}.stat span{color:var(--mute);font-size:12px}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.filters input,.filters select{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;min-width:0}
-.filters input{flex:1 1 220px}
-.item{background:var(--card);border:1px solid var(--line);border-inline-start:5px solid var(--s1);border-radius:10px;padding:12px 14px;margin-bottom:10px}
-.item h2{font-size:16px;margin:0 0 4px}
-.item h2 a{color:var(--ink);text-decoration:none}.item h2 a:hover{color:var(--accent);text-decoration:underline}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+button{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:5;background:var(--bar);border-bottom:1px solid var(--line);padding:calc(8px + env(safe-area-inset-top)) 16px 8px}
+.top .row{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.top img{width:30px;height:30px;border-radius:8px}
+.top h1{font-size:17px;margin:0;flex:1;line-height:1.2}
+.top .sub{display:block;font-size:12px;color:var(--mute);font-weight:400}
+.iconbtn{background:none;border:1px solid var(--line);border-radius:10px;padding:6px 10px;cursor:pointer;min-height:36px}
+.wrap{max-width:900px;margin:0 auto;padding:14px 16px 24px}
+.tabs{position:fixed;bottom:0;inset-inline:0;z-index:5;background:var(--bar);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom)}
+.tabs button{background:none;border:0;padding:8px 2px 9px;font-size:12.5px;color:var(--mute);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
+.tabs button .ic{font-size:19px;line-height:1}
+.tabs button[aria-selected="true"]{color:var(--accent);font-weight:600}
+.badge{position:absolute;top:4px;inset-inline-start:calc(50% + 8px);background:var(--new);color:#fff;border-radius:999px;font-size:11px;padding:0 6px;line-height:17px;min-width:17px;text-align:center}
+.badge:empty{display:none}
+h2.sec{font-size:15px;margin:18px 0 8px;color:var(--mute);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.digest h3{margin:0 0 6px;font-size:16px}
+.digest ul{margin:0;padding-inline-start:20px}.digest li{margin:4px 0}
+.digest .when{color:var(--mute);font-size:12.5px;margin-bottom:6px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:8px 0 10px}
+.bar .grow{flex:1}
+.btn{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:7px 12px;cursor:pointer;min-height:38px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:10px}
+.axis{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:7px 10px;text-align:start;cursor:pointer;min-height:40px}
+.axis b{font-size:17px;margin-inline-end:6px}.axis[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--accent-soft)}
+.axis[disabled]{opacity:.5;cursor:default}
+details.filters{margin-bottom:10px}
+details.filters summary{cursor:pointer;color:var(--accent);padding:6px 0}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:6px}
+input[type=search],select,textarea{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit;width:100%;min-width:0}
+.item{background:var(--card);border:1px solid var(--line);border-inline-start:5px solid var(--s1);border-radius:12px;padding:12px 14px;margin-bottom:10px;scroll-margin-top:80px}
+.item.flash{box-shadow:0 0 0 3px var(--accent)}
+.item h3{font-size:15.5px;margin:0 0 4px;line-height:1.4}
+.item h3 a{color:var(--ink);text-decoration:none}.item h3 a:hover{color:var(--accent);text-decoration:underline}
+.newdot{display:inline-block;background:var(--new);color:#fff;border-radius:6px;font-size:11px;padding:0 6px;margin-inline-end:6px;vertical-align:2px}
 .meta{color:var(--mute);font-size:12.5px;margin-bottom:6px}
+.sig{font-weight:700}
+.v-unverified_state_claim{color:var(--warn)}.v-corroborated,.v-imagery_supported{color:var(--ok)}
 .why{margin-top:6px;font-size:14px}.why b{font-weight:600}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .tag{border:1px solid var(--line);border-radius:999px;padding:1px 8px;font-size:12px;color:var(--mute)}
-.sig{font-weight:700}
-.v-unverified_state_claim{color:var(--warn)}.v-corroborated,.v-imagery_supported{color:var(--ok)}
-.axes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:14px}
-.axis{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font:inherit;text-align:start;cursor:pointer}
-.axis b{font-size:18px;margin-inline-end:6px}.axis[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-.axis[disabled]{opacity:.55;cursor:default}
 .tag.dom{color:var(--accent);border-color:var(--accent)}
-.empty{color:var(--mute);text-align:center;padding:40px 0}
+.acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.act{background:none;border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer;min-height:34px;text-decoration:none;color:var(--ink);display:inline-flex;align-items:center;gap:4px}
+.act[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.note{margin-top:8px}
+.note textarea{min-height:60px;resize:vertical}
+.empty{color:var(--mute);text-align:center;padding:30px 0}
+.toast{position:fixed;bottom:calc(76px + env(safe-area-inset-bottom));inset-inline:16px;margin:0 auto;max-width:420px;background:var(--ink);color:var(--bg);border-radius:10px;padding:10px 14px;text-align:center;opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+.toast.on{opacity:1}
+.card h3{margin:0 0 6px;font-size:16px}
+.set p{margin:6px 0}.set code,.set pre{font-size:12px;direction:ltr;text-align:left}
+.set pre{white-space:pre-wrap;word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px;max-height:140px;overflow:auto}
+.muted{color:var(--mute);font-size:13px}
+.stat{display:flex;gap:14px;flex-wrap:wrap;color:var(--mute);font-size:13px;margin:4px 0 8px}
+.stat b{color:var(--ink)}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>פיד התעצמות צבאית של איראן</h1>
-  <div class="sub" id="updated">טוען…</div>
-  <div class="stats" id="stats"></div>
-  <div class="axes" id="axes" role="group" aria-label="צירי התעצמות"></div>
-  <div class="filters">
+<header class="top"><div class="row">
+  <img src="icons/icon-192.png" alt="">
+  <h1>פיד התעצמות צבאית של איראן<span class="sub" id="updated">טוען…</span></h1>
+  <button class="iconbtn" id="refresh" type="button" aria-label="רענון">↻</button>
+</div></header>
+
+<main class="wrap">
+  <!-- What's new -->
+  <section id="v-new" data-view>
+    <div id="digest"></div>
+    <div class="bar"><h2 class="sec grow" id="newTitle">חדש מאז הביקור הקודם</h2>
+      <button class="btn" id="markAll" type="button">סמן הכול כנקרא</button></div>
+    <div id="newList"></div>
+  </section>
+
+  <!-- All items -->
+  <section id="v-all" data-view hidden>
+    <div class="axes" id="axes" role="group" aria-label="צירי התעצמות"></div>
     <input id="q" type="search" placeholder="חיפוש בכותרת, בתקציר, במקור…" aria-label="חיפוש">
-    <select id="dom" aria-label="ציר התעצמות"></select>
-    <select id="cat" aria-label="קטגוריה"></select>
-    <select id="branch" aria-label="זרוע"></select>
-    <select id="stype" aria-label="סוג מקור"></select>
-    <select id="ver" aria-label="אימות"></select>
-    <select id="sig" aria-label="משמעותיות מינימלית">
-      <option value="0">כל רמות המשמעותיות</option><option value="3">3 ומעלה</option><option value="4">4 ומעלה</option><option value="5">5 בלבד</option>
-    </select>
-    <select id="range" aria-label="טווח תאריכים">
-      <option value="0">כל הזמנים</option><option value="1">24 שעות אחרונות</option><option value="7">7 ימים אחרונים</option><option value="30">30 ימים אחרונים</option>
-    </select>
-  </div>
-  <div id="list"></div>
-</div>
+    <details class="filters"><summary>סינון נוסף</summary>
+      <div class="fgrid">
+        <select id="dom" aria-label="ציר התעצמות"></select>
+        <select id="cat" aria-label="קטגוריה"></select>
+        <select id="branch" aria-label="זרוע"></select>
+        <select id="stype" aria-label="סוג מקור"></select>
+        <select id="ver" aria-label="אימות"></select>
+        <select id="sig" aria-label="משמעותיות מינימלית">
+          <option value="0">כל רמות המשמעותיות</option><option value="2">2 ומעלה</option><option value="3">3 ומעלה</option><option value="4">4 ומעלה</option>
+        </select>
+        <select id="range" aria-label="טווח תאריכים">
+          <option value="0">כל הזמנים</option><option value="1">24 שעות</option><option value="7">7 ימים</option><option value="30">30 ימים</option>
+        </select>
+        <select id="mark" aria-label="סימון">
+          <option value="">כל הפריטים</option><option value="unread">לא נקראו</option><option value="deep">להעמקה</option>
+        </select>
+      </div>
+    </details>
+    <div class="stat" id="count"></div>
+    <div id="allList"></div>
+  </section>
+
+  <!-- Deep dive -->
+  <section id="v-deep" data-view hidden>
+    <div class="bar"><h2 class="sec grow">פריטים שסימנת להעמקה</h2>
+      <button class="btn" id="shareDeep" type="button">שיתוף הרשימה</button></div>
+    <p class="muted">הסימונים וההערות נשמרים במכשיר הזה בלבד. להעברה למכשיר אחר: הגדרות ← גיבוי סימונים.</p>
+    <div id="deepList"></div>
+  </section>
+
+  <!-- Settings -->
+  <section id="v-set" data-view hidden class="set">
+    <div class="card">
+      <h3>התקנה כאפליקציה</h3>
+      <p id="installState" class="muted"></p>
+      <button class="btn primary" id="installBtn" type="button" hidden>התקנה</button>
+      <p class="muted">אייפון: Safari ← כפתור השיתוף ← "הוספה למסך הבית". אנדרואיד: Chrome ← תפריט ← "התקנת אפליקציה".</p>
+    </div>
+    <div class="card">
+      <h3>התראות</h3>
+      <p id="pushState" class="muted"></p>
+      <button class="btn primary" id="pushBtn" type="button">הפעלת התראות במכשיר הזה</button>
+      <div id="pushSub" hidden>
+        <p>שלב אחרון (פעם אחת לכל מכשיר): העתק את קוד המנוי והוסף אותו לסוד <code>PUSH_SUBSCRIPTIONS</code> במאגר ב-GitHub (Settings ← Secrets and variables ← Actions). אם כבר יש שם מנוי, הוסף את הקוד בשורה חדשה.</p>
+        <pre id="subJson"></pre>
+        <button class="btn" id="copySub" type="button">העתקת קוד המנוי</button>
+        <button class="btn" id="testPush" type="button">התראת בדיקה מקומית</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>גיבוי סימונים</h3>
+      <p class="muted">הסימונים (נקרא, להעמקה, הערות) נשמרים בדפדפן של המכשיר הזה. אפשר להעתיק גיבוי ולהדביק אותו במכשיר אחר.</p>
+      <div class="bar"><button class="btn" id="exportMarks" type="button">העתקת גיבוי</button>
+        <button class="btn" id="importMarks" type="button">שחזור מגיבוי</button></div>
+      <textarea id="marksBox" hidden placeholder="הדבק כאן גיבוי ולחץ שוב על &quot;שחזור מגיבוי&quot;"></textarea>
+    </div>
+    <div class="card">
+      <h3>תצוגה</h3>
+      <select id="theme" aria-label="ערכת צבעים"><option value="">לפי המכשיר</option><option value="light">בהיר</option><option value="dark">כהה</option></select>
+    </div>
+    <p class="muted">הפיד נאסף אוטומטית ממקורות פתוחים, כולל תעמולה ממלכתית. המשמעותיות והאימות הם הערכת הסוכן, לא אמת מוחלטת.</p>
+  </section>
+</main>
+
+<nav class="tabs" role="tablist" aria-label="ניווט">
+  <button role="tab" data-tab="new" aria-selected="true" type="button"><span class="ic">✦</span>מה חדש<span class="badge" id="newBadge"></span></button>
+  <button role="tab" data-tab="all" aria-selected="false" type="button"><span class="ic">☰</span>כל הפריטים</button>
+  <button role="tab" data-tab="deep" aria-selected="false" type="button"><span class="ic">🔖</span>להעמקה<span class="badge" id="deepBadge" style="background:var(--accent)"></span></button>
+  <button role="tab" data-tab="set" aria-selected="false" type="button"><span class="ic">⚙</span>הגדרות</button>
+</nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
+const VAPID_PUBLIC_KEY = 'BLc2K01WJDQmjZQLU_hLfytCcWmphspJV6sAV7JojTbKclOY6T8ywAFTtNn463MQhpb2kABlYQ3WBR6Qe6F47gg';
 const $ = id => document.getElementById(id);
 const DOMAINS = ['personnel','training','weapons','infrastructure','organization','statements'];
 const HE = {
   personnel:'כוח אדם', training:'אימונים והכשרות', weapons:'אמל״ח ואמצעים', infrastructure:'תשתיות', organization:'מבנה וארגון', statements:'נאומים והצהרות',
   missiles:'טילים', drones:'כטב״מים ומל״טים', air_defense:'הגנה אווירית', naval:'ים', air_force:'חיל האוויר', space:'חלל',
-  c4isr_ew:'פיקוד, בקרה ולוחמה אלקטרונית', transfer_to_iran:'העברות לאיראן', transfer_from_iran:'העברות מאיראן', production_capacity:'יכולת ייצור',
-  budget:'תקציב', exercises:'תרגילים', sanctions_networks:'סנקציות ורשתות רכש', other:'אחר',
+  c4isr_ew:'פיקוד, בקרה ולוחמה אלקטרונית', transfer_to_iran:'העברות לאיראן', transfer_from_iran:'העברות מאיראן', procurement_transfer:'רכש והעברת טכנולוגיה',
+  production_capacity:'יכולת ייצור', budget:'תקציב', exercises:'תרגילים', sanctions_networks:'סנקציות ורשתות רכש', other:'אחר',
   artesh:'צבא (ארטש)', irgc_ground:'כוחות היבשה של המשמרות', irgc_aerospace:'חיל החלל של המשמרות', irgc_navy:'חיל הים של המשמרות',
   mod_industries:'משרד הביטחון ותעשיותיו', unspecified:'לא מוגדר',
   state_media:'תקשורת ממלכתית', irgc_media:'תקשורת המשמרות', telegram:'טלגרם', independent_analyst:'אנליסט עצמאי',
   think_tank:'מכון מחקר', government:'גוף ממשלתי', news_outlet:'כלי חדשות', database:'מאגר נתונים',
   unverified_state_claim:'טענה ממלכתית לא מאומתת', single_source:'מקור יחיד', corroborated:'מאושר ממקור נוסף', imagery_supported:'נתמך בתצלומים',
-  fa:'פרסית', en:'אנגלית', ar:'ערבית'
+  fa:'פרסית', en:'אנגלית', ar:'ערבית', other_lang:'אחר'
 };
 const label = s => HE[s] || String(s||'').replace(/_/g,' ');
 const safeUrl = u => /^https?:\/\//i.test(u||'') ? u : '#';
-let items = [];
+const appUrl = () => location.href.split('#')[0].split('?')[0];
 
-function fillSelect(el, title, values){
-  el.replaceChildren(new Option(title, ''));
-  [...new Set(values)].filter(Boolean).sort().forEach(v => el.append(new Option(label(v), v)));
+// ---- per-device state (marks), always guarded ----
+const KEY = 'ifb.v1';
+let S = {seen:{}, deep:{}, notes:{}, init:false};
+try { S = Object.assign(S, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch(_) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(_) {} };
+
+function hid(url){ // stable short id from the canonical url
+  let u = String(url||'').trim().toLowerCase().replace(/^https?:\/\/(www\.)?/,'').replace(/[#?].*$/,'').replace(/\/+$/,'');
+  let h = 0x811c9dc5; for (let i=0;i<u.length;i++){ h ^= u.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+  return h.toString(36);
 }
-function itemDate(i){ return new Date(i.published_date || i.found_at || 0); }
+let items = [], digests = [], byId = {};
+const itemDate = i => new Date(i.published_date || i.found_at || 0);
+const isNew = i => !S.seen[i.id];
+const toast = msg => { const t=$('toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove('on'),2200); };
 
-function render(){
-  const q = $('q').value.trim().toLowerCase(), dom=$('dom').value, cat=$('cat').value, br=$('branch').value,
-        st=$('stype').value, ve=$('ver').value, sg=+$('sig').value, days=+$('range').value;
-  const cutoff = days ? Date.now() - days*864e5 : 0;
+// ---- item card ----
+function card(i, opts={}){
+  const art=document.createElement('article'); art.className='item'; art.id='i-'+i.id;
+  const color=['','--s1','--s2','--s3','--s4','--s5'][Math.min(5,Math.max(1,i.significance||1))];
+  art.style.borderInlineStartColor=`var(${color})`;
+  const h=document.createElement('h3'); h.dir='auto';
+  if (isNew(i)) { const n=document.createElement('span'); n.className='newdot'; n.textContent='חדש'; h.append(n); }
+  const a=document.createElement('a'); a.href=safeUrl(i.url); a.target='_blank'; a.rel='noopener noreferrer'; a.textContent=i.title||'(ללא כותרת)'; h.append(a);
+  const meta=document.createElement('div'); meta.className='meta';
+  const sig=document.createElement('span'); sig.className='sig'; sig.textContent=`משמעותיות ${i.significance||'?'}`;
+  const ver=document.createElement('span'); ver.className='v-'+i.verification; ver.textContent=label(i.verification);
+  meta.append(sig, ` · ${i.source_name||''} · ${i.published_date||'תאריך לא ידוע'} · `, ver);
+  const sum=document.createElement('div'); sum.dir='auto'; sum.textContent=i.summary||'';
+  const why=document.createElement('div'); why.className='why'; why.dir='auto';
+  const b=document.createElement('b'); b.textContent='למה זה חשוב: '; why.append(b, i.why_it_matters||'');
+  const tags=document.createElement('div'); tags.className='tags';
+  (i.domains||[]).forEach(t=>{const s=document.createElement('span');s.className='tag dom';s.textContent=label(t);tags.append(s)});
+  [...(i.categories||[]),...(i.branches||[])].forEach(t=>{const s=document.createElement('span');s.className='tag';s.textContent=label(t);tags.append(s)});
+  // actions
+  const acts=document.createElement('div'); acts.className='acts';
+  const mk=(txt,pressed,fn,aria)=>{const x=document.createElement('button');x.type='button';x.className='act';x.textContent=txt;x.setAttribute('aria-pressed',String(!!pressed));x.setAttribute('aria-label',aria||txt);x.onclick=fn;return x};
+  acts.append(
+    mk(S.deep[i.id]?'🔖 להעמקה ✓':'🔖 להעמקה', S.deep[i.id], ()=>{ toggleDeep(i.id); }),
+    mk(S.seen[i.id]?'✓ נקרא':'○ סמן כנקרא', S.seen[i.id], ()=>{ S.seen[i.id]?delete S.seen[i.id]:S.seen[i.id]=1; save(); renderAll(); }),
+    mk('⤴ שיתוף', false, ()=>shareItem(i)),
+  );
+  const src=document.createElement('a'); src.className='act'; src.href=safeUrl(i.url); src.target='_blank'; src.rel='noopener noreferrer'; src.textContent='🔗 למקור';
+  src.onclick=()=>{ if(!S.seen[i.id]){S.seen[i.id]=1; save(); setTimeout(renderAll,300);} };
+  acts.append(src);
+  art.append(h,meta,sum,why,tags,acts);
+  if (opts.note || S.deep[i.id]) {
+    const wrap=document.createElement('div'); wrap.className='note'; wrap.hidden=!opts.note;
+    const ta=document.createElement('textarea'); ta.placeholder='הערה אישית להעמקה (נשמרת במכשיר)'; ta.value=S.notes[i.id]||''; ta.dir='auto';
+    ta.oninput=()=>{ ta.value.trim()? S.notes[i.id]=ta.value : delete S.notes[i.id]; save(); };
+    wrap.append(ta); art.append(wrap);
+  }
+  return art;
+}
+function toggleDeep(id){ if(S.deep[id]){delete S.deep[id]; toast('הוסר מרשימת ההעמקה');} else {S.deep[id]=Date.now(); toast('נוסף לרשימת ההעמקה');} save(); renderAll(); }
+
+// ---- share ----
+async function shareItem(i){
+  const link = appUrl()+'#i='+i.id;
+  const text = `${i.title}\n\n${(i.summary||'').split(/(?<=[.!?])\s/)[0]}\n\nמקור: ${i.url}\nלהעמקה בפיד: ${link}`;
+  try {
+    if (navigator.share) { await navigator.share({title:i.title, text, url:link}); return; }
+  } catch(e){ if (e && e.name==='AbortError') return; }
+  try { await navigator.clipboard.writeText(text); toast('הקישור והתקציר הועתקו'); }
+  catch(_) { prompt('העתק:', text); }
+}
+$('shareDeep').onclick = async () => {
+  const list = items.filter(i=>S.deep[i.id]);
+  if (!list.length) return toast('הרשימה ריקה');
+  const text = 'פריטים להעמקה:\n\n' + list.map((i,n)=>`${n+1}. ${i.title}\n${i.url}${S.notes[i.id]?`\nהערה: ${S.notes[i.id]}`:''}`).join('\n\n');
+  try { if (navigator.share) { await navigator.share({title:'פריטים להעמקה', text}); return; } } catch(e){ if(e&&e.name==='AbortError') return; }
+  try { await navigator.clipboard.writeText(text); toast('הרשימה הועתקה'); } catch(_) { prompt('העתק:', text); }
+};
+
+// ---- views ----
+function renderNew(){
+  const d = digests[0], box=$('digest'); box.replaceChildren();
+  if (d && d.bullets && d.bullets.length){
+    const c=document.createElement('div'); c.className='card digest';
+    const h=document.createElement('h3'); h.textContent='עיקרי הדברים';
+    const w=document.createElement('div'); w.className='when'; w.textContent=`סיכום ריצה ${d.date}${d.added!=null?` · ${d.added} פריטים נוספו`:''}`;
+    const ul=document.createElement('ul'); d.bullets.forEach(t=>{const li=document.createElement('li'); li.dir='auto'; li.textContent=t; ul.append(li)});
+    c.append(h,w,ul); box.append(c);
+  }
+  const fresh = items.filter(isNew).sort((a,b)=>(b.significance||0)-(a.significance||0) || itemDate(b)-itemDate(a));
+  $('newTitle').textContent = fresh.length ? `${fresh.length} פריטים חדשים מאז הביקור הקודם` : 'אין פריטים חדשים';
+  $('markAll').hidden = !fresh.length;
+  const list=$('newList'); list.replaceChildren();
+  if (!fresh.length){ const e=document.createElement('div'); e.className='empty'; e.textContent='קראת הכול. פריטים חדשים יופיעו כאן אחרי הריצה הבאה.'; list.append(e); }
+  fresh.forEach(i=>list.append(card(i)));
+  $('newBadge').textContent = fresh.length ? (fresh.length>99?'99+':fresh.length) : '';
+}
+function renderAxes(){
+  const cur=$('dom').value;
+  $('axes').replaceChildren(...DOMAINS.map(k=>{const n=items.filter(i=>(i.domains||[]).includes(k)).length;
+    const b=document.createElement('button');b.type='button';b.className='axis';b.disabled=!n;b.setAttribute('aria-pressed',String(cur===k));
+    const s=document.createElement('b');s.textContent=n;b.append(s,label(k));
+    b.onclick=()=>{$('dom').value=(cur===k?'':k);renderAxes();renderList()};return b}));
+}
+function renderList(){
+  const q=$('q').value.trim().toLowerCase(), dom=$('dom').value, cat=$('cat').value, br=$('branch').value,
+        st=$('stype').value, ve=$('ver').value, sg=+$('sig').value, days=+$('range').value, mk=$('mark').value;
+  const cutoff = days ? Date.now()-days*864e5 : 0;
   const shown = items.filter(i =>
     (!q || [i.title,i.summary,i.why_it_matters,i.source_name].join(' ').toLowerCase().includes(q)) &&
     (!dom || (i.domains||[]).includes(dom)) && (!cat || (i.categories||[]).includes(cat)) && (!br || (i.branches||[]).includes(br)) &&
-    (!st || i.source_type===st) && (!ve || i.verification===ve) &&
-    (i.significance||0) >= sg && itemDate(i) >= cutoff);
-  const list = $('list'); list.replaceChildren();
-  if(!shown.length){ const d=document.createElement('div'); d.className='empty';
-    d.textContent = items.length ? 'אין פריטים שמתאימים למסננים.' : 'עדיין אין פריטים. הם יופיעו אחרי הריצה הראשונה.'; list.append(d); }
-  const color = ['','--s1','--s2','--s3','--s4','--s5'];
-  for(const i of shown){
-    const art=document.createElement('article'); art.className='item';
-    art.style.borderInlineStartColor=`var(${color[Math.min(5,Math.max(1,i.significance||1))]})`;
-    const h=document.createElement('h2'), a=document.createElement('a'); h.dir='auto';
-    a.href=safeUrl(i.url); a.target='_blank'; a.rel='noopener noreferrer'; a.textContent=i.title||'(ללא כותרת)'; h.append(a);
-    const meta=document.createElement('div'); meta.className='meta';
-    const sig=document.createElement('span'); sig.className='sig'; sig.textContent=`משמעותיות ${i.significance||'?'}`;
-    const ver=document.createElement('span'); ver.className='v-'+i.verification; ver.textContent=label(i.verification);
-    meta.append(sig, ` · ${i.source_name||''} (${label(i.source_type)}) · ${i.published_date||'תאריך לא ידוע'} · ${label(i.language)} · `, ver);
-    const sum=document.createElement('div'); sum.textContent=i.summary||''; sum.dir='auto';
-    const why=document.createElement('div'); why.className='why'; why.dir='auto'; const b=document.createElement('b'); b.textContent='למה זה חשוב: ';
-    why.append(b, i.why_it_matters||'');
-    const tags=document.createElement('div'); tags.className='tags';
-    (i.domains||[]).forEach(t=>{const s=document.createElement('span');s.className='tag dom';s.textContent=label(t);tags.append(s)});
-    [...(i.categories||[]),...(i.branches||[])].forEach(t=>{const s=document.createElement('span');s.className='tag';s.textContent=label(t);tags.append(s)});
-    art.append(h,meta,sum,why,tags); list.append(art);
+    (!st || i.source_type===st) && (!ve || i.verification===ve) && (i.significance||0)>=sg && itemDate(i)>=cutoff &&
+    (!mk || (mk==='unread'?isNew(i):!!S.deep[i.id])));
+  $('count').replaceChildren(...[[shown.length,'מוצגים'],[items.length,'סה״כ'],[items.filter(i=>i.verification==='unverified_state_claim').length,'טענות לא מאומתות']]
+    .map(([v,l])=>{const s=document.createElement('span');const b=document.createElement('b');b.textContent=v;s.append(b,' '+l);return s}));
+  const list=$('allList'); list.replaceChildren();
+  if(!shown.length){const e=document.createElement('div');e.className='empty';e.textContent=items.length?'אין פריטים שמתאימים לסינון.':'עדיין אין פריטים.';list.append(e)}
+  shown.forEach(i=>list.append(card(i)));
+}
+function renderDeep(){
+  const list=$('deepList'); list.replaceChildren();
+  const deep = items.filter(i=>S.deep[i.id]).sort((a,b)=>S.deep[b.id]-S.deep[a.id]);
+  $('deepBadge').textContent = deep.length || '';
+  if(!deep.length){const e=document.createElement('div');e.className='empty';e.textContent='עוד לא סימנת פריטים. לחץ "🔖 להעמקה" על פריט כדי להוסיף אותו לכאן.';list.append(e)}
+  deep.forEach(i=>list.append(card(i,{note:true})));
+}
+function renderAll(){ renderNew(); renderAxes(); renderList(); renderDeep(); }
+
+// ---- tabs and deep links ----
+function show(tab){
+  document.querySelectorAll('[data-view]').forEach(v=>v.hidden = v.id!=='v-'+tab);
+  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.tab===tab)));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{ history.replaceState(null,'','#'+b.dataset.tab); show(b.dataset.tab); });
+function route(){
+  const h=location.hash.slice(1);
+  if (h.startsWith('i=')) {
+    const id=h.slice(2), i=byId[id]; show('all');
+    ['q','dom','cat','branch','stype','ver','mark'].forEach(k=>$(k).value=''); $('sig').value='0'; $('range').value='0'; renderAxes(); renderList();
+    const el=$('i-'+id); if(el){ el.scrollIntoView({block:'start'}); el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),2500); }
+    else if(!i) toast('הפריט לא נמצא בפיד');
+  } else show(['new','all','deep','set'].includes(h)?h:'new');
+}
+window.addEventListener('hashchange', route);
+
+$('markAll').onclick = () => { items.forEach(i=>S.seen[i.id]=1); save(); renderAll(); toast('כל הפריטים סומנו כנקראו'); };
+['q','dom','cat','branch','stype','ver','sig','range','mark'].forEach(id=>$(id).addEventListener('input',()=>{ if(id==='dom') renderAxes(); renderList(); }));
+
+// ---- data ----
+function fillSelect(el,title,values){ el.replaceChildren(new Option(title,'')); [...new Set(values)].filter(Boolean).sort().forEach(v=>el.append(new Option(label(v),v))); }
+async function load(){
+  const get = u => fetch(u,{cache:'no-store'}).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); });
+  try {
+    const [f, d] = await Promise.all([get('./feed.json'), get('./digests.json').catch(()=>({digests:[]}))]);
+    items = (f.items||[]).map(i=>Object.assign(i,{id:hid(i.url)})).sort((a,b)=>itemDate(b)-itemDate(a));
+    byId = Object.fromEntries(items.map(i=>[i.id,i]));
+    digests = d.digests||[];
+    if (!S.init) { // first visit: only the latest run counts as new
+      const latest = items.reduce((m,i)=> (i.found_at||'')>m ? i.found_at : m, '');
+      items.forEach(i=>{ if((i.found_at||'')<latest) S.seen[i.id]=1; }); S.init=true; save();
+    }
+    $('updated').textContent = f.updated_at ? 'עודכן ' + new Date(f.updated_at).toLocaleString('he-IL',{dateStyle:'short',timeStyle:'short'}) : '';
+    $('dom').replaceChildren(new Option('כל צירי ההתעצמות',''), ...DOMAINS.map(k=>new Option(label(k),k)));
+    fillSelect($('cat'),'כל הקטגוריות',items.flatMap(i=>i.categories||[]));
+    fillSelect($('branch'),'כל הזרועות',items.flatMap(i=>i.branches||[]));
+    fillSelect($('stype'),'כל סוגי המקורות',items.map(i=>i.source_type));
+    fillSelect($('ver'),'כל רמות האימות',items.map(i=>i.verification));
+    renderAll(); route();
+  } catch(e) {
+    $('updated').textContent = 'לא ניתן לטעון את הפיד ('+e.message+')';
   }
 }
+$('refresh').onclick = () => { load().then(()=>toast('עודכן')); };
 
-function axes(){
-  const cur=$('dom').value;
-  $('axes').replaceChildren(...DOMAINS.map(k=>{const n=items.filter(i=>(i.domains||[]).includes(k)).length;
-    const btn=document.createElement('button');btn.type='button';btn.className='axis';btn.disabled=!n;btn.setAttribute('aria-pressed',String(cur===k));
-    const b=document.createElement('b');b.textContent=n;btn.append(b,label(k));
-    btn.onclick=()=>{$('dom').value=(cur===k?'':k);axes();render()};return btn}));
-}
-function stats(){
-  const now=Date.now(), n=d=>items.filter(i=>itemDate(i)>=now-d*864e5).length;
-  const high=items.filter(i=>(i.significance||0)>=4 && itemDate(i)>=now-7*864e5).length;
-  const claims=items.filter(i=>i.verification==='unverified_state_claim').length;
-  const data=[[items.length,'סה״כ פריטים'],[n(1),'24 שעות אחרונות'],[n(7),'7 ימים אחרונים'],[high,'משמעותיות 4+ (7 ימים)'],[claims,'טענות ממלכתיות לא מאומתות']];
-  $('stats').replaceChildren(...data.map(([v,l])=>{const d=document.createElement('div');d.className='stat';
-    const b=document.createElement('b');b.textContent=v;const s=document.createElement('span');s.textContent=l;d.append(b,s);return d}));
-}
+// ---- theme ----
+const applyTheme = v => { v ? document.documentElement.setAttribute('data-theme',v) : document.documentElement.removeAttribute('data-theme'); };
+try { const t=localStorage.getItem('ifb.theme')||''; $('theme').value=t; applyTheme(t); } catch(_) {}
+$('theme').oninput = e => { applyTheme(e.target.value); try{localStorage.setItem('ifb.theme',e.target.value)}catch(_){} };
 
-fetch('./feed.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(d=>{
-  items=(d.items||[]).slice().sort((a,b)=>itemDate(b)-itemDate(a));
-  $('updated').textContent = d.updated_at ? 'הפיד עודכן ' + new Date(d.updated_at).toLocaleString('he-IL') : 'עדיין לא נאסף מידע';
-  $('dom').replaceChildren(new Option('כל צירי ההתעצמות',''), ...DOMAINS.map(k=>new Option(label(k),k)));
-  fillSelect($('cat'),'כל הקטגוריות',items.flatMap(i=>i.categories||[]));
-  fillSelect($('branch'),'כל הזרועות',items.flatMap(i=>i.branches||[]));
-  fillSelect($('stype'),'כל סוגי המקורות',items.map(i=>i.source_type));
-  fillSelect($('ver'),'כל רמות האימות',items.map(i=>i.verification));
-  stats(); axes(); render();
-}).catch(e=>{$('updated').textContent='לא ניתן לטעון את feed.json ('+e.message+'). פתח את האתר המפורסם ולא את הקובץ.'});
-$('dom').addEventListener('input',axes);
-['q','dom','cat','branch','stype','ver','sig','range'].forEach(id=>$(id).addEventListener('input',render));
+// ---- marks backup ----
+$('exportMarks').onclick = async () => {
+  const data = JSON.stringify({deep:S.deep, notes:S.notes, seen:S.seen});
+  try { await navigator.clipboard.writeText(data); toast('הגיבוי הועתק'); } catch(_) { $('marksBox').hidden=false; $('marksBox').value=data; }
+};
+$('importMarks').onclick = () => {
+  const box=$('marksBox');
+  if (box.hidden || !box.value.trim()) { box.hidden=false; box.value=''; box.focus(); return; }
+  try { const d=JSON.parse(box.value); ['deep','notes','seen'].forEach(k=>Object.assign(S[k], d[k]||{})); save(); renderAll(); box.hidden=true; toast('הסימונים שוחזרו'); }
+  catch(_) { toast('הגיבוי לא תקין'); }
+};
+
+// ---- install ----
+let deferredPrompt = null;
+const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+function installState(){ $('installState').textContent = standalone() ? 'האפליקציה מותקנת ופועלת כאפליקציה.' : 'האפליקציה עדיין לא מותקנת במכשיר הזה.'; }
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt=e; $('installBtn').hidden=false; });
+$('installBtn').onclick = async () => { if(!deferredPrompt) return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; $('installBtn').hidden=true; installState(); };
+installState();
+
+// ---- service worker + push ----
+let reg = null;
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(r => { reg=r; pushState(); }).catch(()=>pushState());
+} else pushState();
+const b64 = s => { const p='='.repeat((4-s.length%4)%4); const raw=atob((s+p).replace(/-/g,'+').replace(/_/g,'/')); return Uint8Array.from(raw,c=>c.charCodeAt(0)); };
+async function pushState(){
+  const st=$('pushState');
+  if (!('PushManager' in window) || !('Notification' in window) || !reg) {
+    st.textContent = /iPhone|iPad/.test(navigator.userAgent) && !standalone()
+      ? 'באייפון התראות עובדות רק אחרי התקנה למסך הבית. התקן ואז פתח את האפליקציה מהאייקון.'
+      : 'הדפדפן הזה לא תומך בהתראות.';
+    $('pushBtn').hidden=true; return;
+  }
+  const sub = await reg.pushManager.getSubscription();
+  if (sub) { st.textContent='התראות פעילות במכשיר הזה.'; $('pushBtn').textContent='רענון המנוי'; showSub(sub); }
+  else st.textContent = Notification.permission==='denied' ? 'ההתראות חסומות בהגדרות הדפדפן לאתר הזה.' : 'ההתראות כבויות במכשיר הזה.';
+}
+function showSub(sub){ $('pushSub').hidden=false; $('subJson').textContent = JSON.stringify(sub); }
+$('pushBtn').onclick = async () => {
+  try {
+    if (!reg) reg = await navigator.serviceWorker.ready;
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') { toast('לא ניתנה הרשאה להתראות'); return pushState(); }
+    const sub = await reg.pushManager.getSubscription() || await reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:b64(VAPID_PUBLIC_KEY)});
+    showSub(sub); pushState(); toast('ההתראות הופעלו. נשאר להעתיק את קוד המנוי.');
+  } catch(e) { toast('הפעלת ההתראות נכשלה: '+e.message); }
+};
+$('copySub').onclick = async () => { try { await navigator.clipboard.writeText($('subJson').textContent); toast('קוד המנוי הועתק'); } catch(_) { prompt('העתק:', $('subJson').textContent); } };
+$('testPush').onclick = () => { reg && reg.showNotification('בדיקת התראה', {body:'ככה תיראה התראה על עדכון בפיד', icon:'icons/icon-192.png', lang:'he', dir:'rtl', data:{url:'./#new'}}); };
+
+load();
 </script>
 </body>
 </html>
